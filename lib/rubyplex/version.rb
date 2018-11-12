@@ -1,3 +1,3 @@
-module Rubyplex
+module Plex
   VERSION = "0.1.0"
 end
