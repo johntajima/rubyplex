@@ -22,7 +22,60 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Require the gem:
+
+```
+require 'rubyplex'
+```
+
+Add configuration:
+
+```
+  Plex.configure do |config|
+    config[:host]  = "<ip address>"
+    config[:port]  = # port number or 32400 by default
+    config[:token] = "your-api-token"
+  end
+```
+
+Then use as needed:
+
+```
+  server = Plex.server
+
+  sections = server.sections
+
+  movie_section = server.section('Movies')
+
+  movies = movie_section.all
+```
+
+You can options when filtering
+
+```
+section.all(sort: 'year')                     # sort results by release year
+section.all(sort: 'year', direction: 'dsec')  # sort results by release year descending
+section.all(page: 5, per_page: 100)           # lists page 5 (results 500-599)
+```
+
+Other filtering options standard to Plex exists
+
+```
+section.by_year(1999)
+section.by_decade(2000)
+section.unwatched
+section.newest
+section.recently_added
+section.recently_viewed
+```
+
+A special filter method exists:
+
+```
+section.updated_since(1.day.ago)    # lists movies that were updatedAt > time
+```
+
+
 
 ## Development
 
@@ -37,3 +90,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## TODO
+
+- tests, tests, tests
