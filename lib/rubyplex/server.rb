@@ -20,8 +20,8 @@ module Plex
       end
     end
 
-    def find_section(query)
-      section = if query.is_int?
+    def section(query)
+      section = if query.to_i.to_s == query || query.is_a?(Integer)
         sections.detect {|s| s.key.to_i == query.to_i }
       else
         sections.detect {|s| s.title == query }
