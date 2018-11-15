@@ -4,7 +4,7 @@ module Plex
 
     attr_reader :base_url, :headers, :config, :params
 
-    VALID_PARAMS = %w| type year decade |
+    VALID_PARAMS = %w| type year decade sort|
 
     def initialize(config)
       @config   = config
@@ -42,6 +42,8 @@ module Plex
       puts "query params: #{query_params}"
       puts response_hash
       raise
+    ensure
+      p query_url, query_params
     end
 
 

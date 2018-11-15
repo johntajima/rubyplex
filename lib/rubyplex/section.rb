@@ -1,6 +1,7 @@
 module Plex
   class Section
     include Plex::Base
+    include Plex::Sortable
 
     attr_reader :videos
 
@@ -64,7 +65,8 @@ module Plex
 
 
     def get_videos(path, options = {})
-      response = server.query(query_path(path), options)
+      params = sanitize_options(options)
+      response = server.query(query_path(path), params)
       results = response.fetch("Metadata")
       parse_results(results)
     end
@@ -80,6 +82,19 @@ module Plex
           # todo
         end
       end
+    end
+
+
+    def sanitize_options(options)
+      params = {}
+      if options.key?(:sort)
+        params['type'] = 1
+        params['sort'] = SORT_ORDER.fetch(options[:sort], nil)
+        if direction = options.fetch(:direction, nil)
+          params['sort'] = params['sort'] + ":desc"
+        end
+      end
+      params.merge(options.except(:sort, :direction))
     end
 
     def query_path(path)
