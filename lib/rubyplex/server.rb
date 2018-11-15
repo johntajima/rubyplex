@@ -42,8 +42,8 @@ module Plex
       puts "query params: #{query_params}"
       puts response_hash
       raise
-    ensure
-      p query_url, query_params
+    # ensure
+    #   p query_url, query_params
     end
 
 

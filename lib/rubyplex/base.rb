@@ -4,6 +4,13 @@ module Plex
 
     attr_reader :attributes
 
+
+
+    def keys
+      attributes.keys
+    end
+
+
     private
 
     def add_accessible_methods

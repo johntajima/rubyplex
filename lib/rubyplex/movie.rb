@@ -12,6 +12,14 @@ module Plex
       add_accessible_methods
     end
 
+    def imdb
+      @imdb ||= begin
+        value = attributes.fetch('imdb', nil)
+        load_imdb if value.nil?
+        attributes.fetch('imdb')
+      end
+    end
+
     def genres
       @attributes.fetch('Genre').map {|x| x.fetch('tag') }
     end
@@ -34,6 +42,14 @@ module Plex
     def init_medias(medias)
       list = medias.fetch('Media', [])
       list.map {|entry| Plex::Media.new(entry) }
+    end
+
+    def load_imdb
+      movie = Plex.server.query(key)
+      metadata = movie.fetch('Metadata').first
+      guid = metadata.fetch('guid')
+      imdb_id = guid.scan(/tt\d{3,}/).first if guid.match('imdb')
+      @attributes.merge!('imdb' => imdb_id)
     end
   end
 
