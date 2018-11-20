@@ -9,6 +9,7 @@ require 'rubyplex/server'
 require 'rubyplex/section'
 require 'rubyplex/movie'
 require 'rubyplex/media'
+require 'rubyplex/errors'
 
 module Plex
 
@@ -29,7 +30,4 @@ module Plex
   def self.server
     Plex::Server.new(config)    
   end
-
-
-  class NotFoundError < StandardError; end
 end
