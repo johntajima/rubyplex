@@ -1,4 +1,4 @@
-module Rubyplex
+module Plex
 
   class NotFoundError < StandardError; end
   

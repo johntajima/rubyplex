@@ -1,6 +1,6 @@
-# Rubyplex - Simple Ruby gem for Plex API
+# Plex - Simple Ruby gem for Plex API
 
-Rubyplex is a super basic gem for accessing the Plex API on your local Plex Media Server. 
+Plex is a super basic gem for accessing the Plex API on your local Plex Media Server. 
 
 ## Installation
 
