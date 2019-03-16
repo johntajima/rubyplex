@@ -19,6 +19,7 @@ module Plex
     end
 
     def all(options = {})
+      refresh = options.fetch(:refresh, false)
       get_videos('all', options)
     end
 
@@ -55,6 +56,17 @@ module Plex
       get_videos('all', params)
     end
 
+    def find_by_filename(filename)
+      basename = File.basename(filename)
+      all.detect do |movie|
+        movie.medias.any? do |media|
+          media.parts.any? do |part|
+            File.basename(part.fetch('file','')) == basename
+          end
+        end
+      end
+    end
+
 
     private
 
@@ -66,8 +78,14 @@ module Plex
 
     def get_videos(path, options = {})
       params = sanitize_options(options)
-      response = server.query(query_path(path), params)
-      results = response.fetch("Metadata")
+      Plex.cache.delete(query_path(path)) if options.fetch(:refresh, false)
+
+      results = Plex.cache.get(query_path(path)) || begin
+        response = server.query(query_path(path), params)
+        data = response.fetch("Metadata")
+        Plex.cache.set(query_path(path), data)
+        data
+      end
       parse_results(results)
     end
 
