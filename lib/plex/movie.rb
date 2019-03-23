@@ -36,6 +36,16 @@ module Plex
       @attributes.fetch('Country').map {|x| x.fetch('tag') }
     end
 
+    def media_by_file(file, full_filename: false)
+      medias.find do |media| 
+        if full_filename
+          media.file == file
+        else
+          File.basename(media.file) == File.basename(file)        
+        end
+      end
+    end
+
 
     private
 
