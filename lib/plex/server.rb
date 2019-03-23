@@ -30,6 +30,10 @@ module Plex
       section
     end
 
+    def section_by_path(path)
+      sections.detect {|section| section.locations.include?(path) }
+    end
+
     def query(path, options = {})
       query_url     = query_path(path)
       query_params  = set_params(options)      
