@@ -51,7 +51,7 @@ module Plex
 
     def init_medias(medias)
       list = medias.fetch('Media', [])
-      list.map {|entry| Plex::Media.new(entry) }
+      list.map {|entry| Plex::Media.new(entry, parent: self) }
     end
 
     def load_imdb

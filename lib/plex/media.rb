@@ -2,8 +2,11 @@ module Plex
   class Media
     include Plex::Base
 
-    def initialize(hash)
+    attr_reader :movie
+
+    def initialize(hash, parent: nil)
       @attributes = hash
+      @movie = parent
       add_accessible_methods
     end
 
