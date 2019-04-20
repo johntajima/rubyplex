@@ -78,14 +78,7 @@ module Plex
 
     def get_videos(path, options = {})
       params = sanitize_options(options)
-      Plex.cache.delete(query_path(path)) if options.fetch(:refresh, false)
-
-      results = Plex.cache.get(query_path(path)) || begin
-        response = server.query(query_path(path), params)
-        data = response.fetch("Metadata")
-        Plex.cache.set(query_path(path), data)
-        data
-      end
+      results = server.query(query_path(path), params).fetch('Metadata')
       parse_results(results)
     end
 

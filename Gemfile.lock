@@ -3,7 +3,6 @@ PATH
   specs:
     rubyplex (0.3.2)
       activesupport (~> 5.2.1)
-      dalli
       json
       rest-client
 
@@ -16,7 +15,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     concurrent-ruby (1.1.5)
-    dalli (2.7.10)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     http-cookie (1.0.3)

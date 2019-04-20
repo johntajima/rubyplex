@@ -1,7 +1,6 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'json'
-require 'dalli'
 require 'rest-client'
 require 'plex/version'
 require 'plex/base'
@@ -32,12 +31,5 @@ module Plex
 
   def self.server
     Plex::Server.new(config)    
-  end
-
-  def self.cache
-    @cache ||= begin
-      url = "#{Plex.config[:memcache_host]}:#{Plex.config[:memcache_port]}"
-      Dalli::Client.new(url, namespace: 'rubyplex', compress: true, expires_in: 10*60, serializer: JSON)
-    end
   end
 end
