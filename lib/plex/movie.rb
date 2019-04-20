@@ -6,18 +6,11 @@ module Plex
 
 
     def initialize(hash)
+      @orig = hash
       @attributes = hash.except('Media')
       @medias     = init_medias(hash.slice('Media'))
       @attributes.merge!('medias' => @medias)
       add_accessible_methods
-    end
-
-    def imdb
-      @imdb ||= begin
-        value = attributes.fetch('imdb', nil)
-        load_imdb if value.nil?
-        attributes.fetch('imdb')
-      end
     end
 
     def genres
@@ -34,6 +27,16 @@ module Plex
 
     def countries
       @attributes.fetch('Country').map {|x| x.fetch('tag') }
+    end
+
+    def imdb
+      load_imdb
+      @attributes.fetch('imdb', nil)
+    end
+
+    def tmdb
+      load_tmdb
+      @attributes.fetch('tmdb', nil)
     end
 
     def media_by_file(file, full_filename: false)
@@ -54,13 +57,26 @@ module Plex
       list.map {|entry| Plex::Media.new(entry, parent: self) }
     end
 
-    def load_imdb
-      movie = Plex.server.query(key)
-      metadata = movie.fetch('Metadata').first
-      guid = metadata.fetch('guid')
-      imdb_id = guid.scan(/tt\d{3,}/).first if guid.match('imdb')
-      @attributes.merge!('imdb' => imdb_id)
+    def metadata
+      @metadata ||= begin
+        movie = Plex.server.query(key)
+        movie.fetch("Metadata").first
+      end
     end
-  end
 
+    def load_imdb
+      guid = metadata.fetch('guid')
+      return unless guid.match('imdb')
+      value = guid.scan(/tt\d{3,}/).first
+      @attributes.merge!('imdb' => value)
+    end
+
+    def load_tmdb
+      guid = metadata.fetch('guid')
+      return unless guid.match('themoviedb')
+      value = guid.scan(/themoviedb\:\/\/(\d{3,})/).first.first
+      @attributes.merge!('tmdb' => value)
+    end
+
+  end
 end
