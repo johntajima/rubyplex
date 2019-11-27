@@ -39,6 +39,7 @@ module Plex
       @attributes.fetch('tmdb', nil)
     end
 
+
     def media_by_file(file, full_filename: false)
       medias.find do |media| 
         if full_filename
