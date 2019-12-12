@@ -25,7 +25,7 @@ module Plex
     end
 
     def file_duration
-      parts.first.fetch('duration')
+      parts.first.fetch('duration',nil)
     end
 
     def parts
