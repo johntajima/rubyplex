@@ -32,7 +32,13 @@ module Plex
 
     def library_by_path(path)
       path = File.dirname(File.join(path, "/test.txt")) # sanitize
-      libraries.detect {|library| library.directories.include?(path) }
+      found = libraries.detect {|library| library.directories.include?(path) }
+      library = if found
+        found
+      else
+        base_dir = File.basename(path)
+        libraries.detect {|library| library.directories.any? {|d| d.end_with?(base_dir)}}
+      end
     end
 
 
