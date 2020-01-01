@@ -95,9 +95,10 @@ module Plex
     end
 
     def by_file(file, full_path = false)
-      media = medias.find {|media| media.has_file?(file, full_path) }
-      media.parent = self
-      media
+      if media = medias.find {|media| media.has_file?(file, full_path) }
+        media.parent = self
+        media
+      end
     end
 
     def to_hash
