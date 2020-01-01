@@ -1,4 +1,5 @@
 module Plex
+  
   class Library
     include Plex::Base
     include Plex::Sortable
@@ -84,9 +85,11 @@ module Plex
 
     private
 
-
     def get_entries(path, options = {})
-      raise StandardError, "Not implemented"
+      params = sanitize_options(options)
+      results = server.query(query_path(path), params).fetch('Metadata')
+      model = type == 'movie' ? Plex::Movie : Plex::Show
+      results.map {|e| model.new(e) }
     end
 
     def sanitize_options(options)
@@ -105,4 +108,5 @@ module Plex
       "/library/sections/#{key}/#{path}"
     end
   end
+
 end

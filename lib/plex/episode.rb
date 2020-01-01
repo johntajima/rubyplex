@@ -1,10 +1,11 @@
 module Plex
+
   class Episode
     include Plex::Base
 
-    attr_reader :show, :medias
+    attr_reader :medias
 
-    def initialize(hash, parent: nil)
+    def initialize(hash)
       #@show = parent.key
       @attributes = hash.except('Media')
       @medias     = load_medias(hash)
@@ -28,15 +29,13 @@ module Plex
       "#<Plex::Episode::#{object_id} #{@attributes}>"
     end
 
-    def key
-      attributes.fetch('ratingKey')
-    end
 
     private
 
-    def load_medias(orig_hash)
-      list = orig_hash.fetch('Media', [])
-      list.map {|entry| Plex::Media.new(entry, parent: self) }
+    def load_medias(hash)
+      medias = hash.fetch("Media", [])
+      medias.map {|entry| Plex::Media.new(entry) }
     end
   end
+  
 end

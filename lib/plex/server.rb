@@ -15,9 +15,8 @@ module Plex
     def libraries(options = {})
       @libraries ||= begin
         results = query("library/sections", options)
-        results.fetch('Directory', []).map do |entry| 
-          entry['type'] == 'movie' ? Plex::MovieLibrary.new(entry) : Plex::ShowLibrary.new(entry)
-        end
+        entries = results.fetch('Directory', [])
+        entries.map {|entry| Plex::Library.new(entry) }
       end
     end
 
@@ -90,6 +89,6 @@ module Plex
         :accept        => :json
       }
     end
-
   end
+  
 end

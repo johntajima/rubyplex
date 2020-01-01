@@ -2,8 +2,6 @@ module Plex
 
   module Sortable
 
-
-
     # sort orders
     # title (default)
     # year(:desc)

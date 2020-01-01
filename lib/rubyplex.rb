@@ -7,14 +7,10 @@ require 'plex/base'
 require 'plex/sortable'
 require 'plex/server'
 require 'plex/library'
-require 'plex/show_library'
-require 'plex/movie_library'
-
+require 'plex/movie'
 require 'plex/show'
 require 'plex/episode'
-require 'plex/movie'
 require 'plex/media'
-
 require 'plex/errors'
 
 module Plex

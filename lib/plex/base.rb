@@ -4,12 +4,9 @@ module Plex
 
     attr_reader :attributes
 
-
-
     def keys
       attributes.keys
     end
-
 
     private
 

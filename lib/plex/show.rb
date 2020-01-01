@@ -23,18 +23,18 @@ module Plex
     end
 
     def episodes
-      @episodes ||= load_episodes(attributes)
+      @episodes ||= begin
+        list = server.query(episodes_path).fetch("Metadata")
+        list.map {|entry| Plex::Episode.new(entry) }
+      end
     end
+
 
     private
 
-    def load_episodes(orig_hash)
-      list = Plex.server.query(leaf_url).fetch("Metadata")
-      list.map {|entry| Plex::Episode.new(entry, parent: self) }
-    end
-
-    def leaf_url
+    def episodes_path
       "/library/metadata/#{attributes['ratingKey']}/allLeaves"
     end
   end
+  
 end
