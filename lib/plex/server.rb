@@ -12,27 +12,29 @@ module Plex
 
     # Public Methods
 
-    # returns array of sections
-    def sections(options: {})
-      @sections ||= begin
+    def libraries(options = {})
+      @libraries ||= begin
         results = query("library/sections", options)
-        results.fetch('Directory', []).map {|entry| Plex::Section.new(entry) }
+        results.fetch('Directory', []).map do |entry| 
+          entry['type'] == 'movie' ? Plex::MovieLibrary.new(entry) : Plex::ShowLibrary.new(entry)
+        end
       end
     end
 
-    def section(query)
-      section = if query.to_i.to_s == query || query.is_a?(Integer)
-        sections.detect {|s| s.key.to_i == query.to_i }
+    def library(query)
+      library = if query.to_i.to_s == query || query.is_a?(Integer)
+        libraries.detect {|s| s.key.to_i == query.to_i }
       else
-        sections.detect {|s| s.title == query }
+        libraries.detect {|s| s.title == query }
       end
-      raise NotFoundError, "Could not find Section with that ID or Name" if section.nil?
-      section
+      raise NotFoundError, "Could not find Section with that ID or Name" if library.nil?
+      library
     end
 
-    def section_by_path(path)
-      sections.detect {|section| section.locations.include?(path) }
+    def library_by_path(path)
+      libraries.detect {|library| library.locations.include?(path) }
     end
+
 
     def query(path, options = {})
       query_url     = query_path(path)

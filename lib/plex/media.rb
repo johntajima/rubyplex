@@ -2,12 +2,12 @@ module Plex
   class Media
     include Plex::Base
 
-    attr_reader :movie
+    attr_reader :entry
 
     def initialize(hash, parent: nil)
       @attributes = hash
       @attributes.merge!({"file_id" => file_id, "file" => file, "file_size" => file_size, "file_duration" => file_duration})
-      @movie = parent
+      @entry = parent.key
       add_accessible_methods
     end
 

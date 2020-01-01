@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubyplex (0.3.4)
+    rubyplex (0.3.6)
       activesupport
       json
       rest-client
@@ -23,7 +23,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
-    json (2.2.0)
+    json (2.3.0)
     mime-types (3.3)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.1009)
@@ -41,7 +41,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    zeitwerk (2.2.1)
+    zeitwerk (2.2.2)
 
 PLATFORMS
   ruby

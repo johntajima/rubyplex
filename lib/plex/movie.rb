@@ -1,14 +1,13 @@
 module Plex
+
   class Movie
     include Plex::Base
 
     attr_reader :medias
 
-
     def initialize(hash)
-      @orig = hash
       @attributes = hash.except('Media')
-      @medias     = init_medias(hash.slice('Media'))
+      @medias     = load_medias(hash)
       @attributes.merge!('medias' => @medias)
       add_accessible_methods
     end
@@ -40,7 +39,7 @@ module Plex
     end
 
 
-    def media_by_file(file, full_filename: false)
+    def find_media(file, full_filename: false)
       medias.find do |media| 
         if full_filename
           media.file == file
@@ -50,11 +49,10 @@ module Plex
       end
     end
 
-
     private
 
-    def init_medias(medias)
-      list = medias.fetch('Media', [])
+    def load_medias(orig_hash)
+      list = orig_hash.fetch('Media', [])
       list.map {|entry| Plex::Media.new(entry, parent: self) }
     end
 
