@@ -41,8 +41,12 @@ module Plex
       @hash  = hash.except("Part")
     end
 
+    def has_file?(file, full_path = false)
+      parts.any? {|part| part.has_file?(file, full_path) }
+    end
+
     def to_hash
-      attributes.merge(part: part, parts: parts)
+      attributes.merge(parts: parts.map(&:to_hash))
     end
 
     def inspect

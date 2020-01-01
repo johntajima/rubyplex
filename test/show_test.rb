@@ -6,12 +6,10 @@ class ShowTest < Minitest::Test
     assert true
   end
 
-  # libraries()
-
-  # library()
-
-  # library_by_path()
-
-  # query()
+  # create a show
+  # show has episodes
+  # episode(season, index) return given episode
+  # season(season) returns all episodes in that season in order
+  # find_by_file(file) returns episode of show by given file
 
 end

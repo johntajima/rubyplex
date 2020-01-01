@@ -2,7 +2,7 @@ module Plex
 
   module Base
 
-    DATE_FIELDS = [ 'originalAvailableAt']
+    DATE_FIELDS = [ 'originallyAvailableAt' ]
     TIME_FIELDS = [ 'addedAt', 'updatedAt', 'scannedAt']
 
     attr_reader :attributes, :hash
@@ -17,19 +17,21 @@ module Plex
     def init_attributes(hash)
       @attributes = self.class::MAP.inject({}) do |h,obj|
         field = obj.last
-        value = hash[field]        
-        h[obj.first] = if TIME_FIELDS.include?(field)
-          Time.at(value)
-        elsif DATE_FIELDS.include?(field)
-          value.to_time
-        elsif hash[field].is_a?(Array)
-          if field == 'Location'
-            value.map {|entry| entry.fetch('path',nil)}.compact
+        value = hash[field]
+        if value
+          h[obj.first] = if TIME_FIELDS.include?(field)
+            Time.at(value)
+          elsif DATE_FIELDS.include?(field)
+            value.to_time
+          elsif hash[field].is_a?(Array)
+            if field == 'Location'
+              value.map {|entry| entry.fetch('path',nil)}.compact
+            else
+              value.map {|entry| entry.fetch('tag',nil)}.compact
+            end
           else
-            value.map {|entry| entry.fetch('tag',nil)}.compact
+            value
           end
-        else
-          value
         end
         h
       end

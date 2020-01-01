@@ -26,7 +26,6 @@ class LibraryTest < Minitest::Test
   # - by resolution
   # - by codec?
 
-  # show library returns show models
-  # movie library returns movie models
-
+  # find_by_filename returns movie w/ media of same file
+  # find_by_filename returns episode of show of media of smae file
 end

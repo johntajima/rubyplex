@@ -70,12 +70,16 @@ module Plex
       @streams = load_streams(hash)
     end
 
+    def has_file?(filename, full_path = false)
+      full_path ? file == filename : File.basename(file) == File.basename(filename)
+    end
+
     def to_hash
       @attributes.merge(streams: streams)
     end
 
     def inspect
-      "#<Plex::Part #{id} #{file}>"
+      "#<Plex::Part:#{object_id} id:#{id} #{file}>"
     end
 
 

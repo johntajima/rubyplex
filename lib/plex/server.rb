@@ -22,7 +22,7 @@ module Plex
 
     def library(query)
       library = if query.to_i.to_s == query || query.is_a?(Integer)
-        libraries.detect {|s| s.key.to_i == query.to_i }
+        libraries.detect {|s| s.id.to_i == query.to_i }
       else
         libraries.detect {|s| s.title == query }
       end

@@ -6,10 +6,8 @@ class EpisodeTest < Minitest::Test
     assert true
   end
 
-  # episode
-  # season
-  # medias() => returns array of media
-  # key
-  # parent -> show
-  # 
+  # .show returns show model for given episode
+  # has_file?
+
+
 end

@@ -41,7 +41,6 @@ module Plex
       @hash = hash.except('Metadata')
     end
 
-
     def total_count(options = {})
       response = server.query(query_path('all'), options.merge(page: 1, per_page: 0))
       response.fetch('totalSize').to_i
@@ -85,14 +84,8 @@ module Plex
     end
 
     def find_by_filename(filename)
-      basename = File.basename(filename)
-      all.detect do |movie|
-        movie.medias.any? do |media|
-          media.parts.any? do |part|
-            File.basename(part.fetch('file','')) == basename
-          end
-        end
-      end
+      result = all.detect {|entry| entry.by_file(filename)}
+      movie_library? ? result : result.by_file(filename)
     end
 
     def search(query, options = {})

@@ -94,14 +94,12 @@ module Plex
       attributes.fetch(:tmdb, load_tmdb)
     end
 
-    def find_media(file, full_filename: false)
-      medias.find do |media| 
-        full_filename ? media.file == file : File.basename(media.file) == File.basename(file)
-      end
+    def by_file(file, full_path = false)
+      medias.find {|media| media.has_file?(file, full_path) }
     end
 
     def to_hash
-      attributes.merge(medias: medias, imdb: imdb, tmdb: tmdb)
+      attributes.merge(medias: medias.map(&:to_hash), imdb: imdb, tmdb: tmdb)
     end
 
     def inspect
