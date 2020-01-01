@@ -41,6 +41,7 @@ module Plex
       id: 'ratingKey',
       title: 'title',
       year: 'year',
+      type: 'type',
       rating: 'rating',
       release_date: 'originallyAvailableAt',
       total_seasons: 'childCount',

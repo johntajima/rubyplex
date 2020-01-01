@@ -70,6 +70,7 @@ module Plex
       title: 'title',
       rating: 'rating',
       year: 'year',
+      type: 'type',
       duration: 'duration',
       release_date: 'originallyAvailableAt',
       added_at: 'addedAt',
