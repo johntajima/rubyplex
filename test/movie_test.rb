@@ -11,4 +11,7 @@ class MovieTest < Minitest::Test
   # test the attributes of interest
   # find_media 
 
+  # by_file - will return media and set media.parent to self 
+  # 
+
 end

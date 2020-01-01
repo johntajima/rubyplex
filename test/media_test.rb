@@ -19,4 +19,6 @@ class MediaTest < Minitest::Test
   # .file_id
   # .file_duration
 
+  # .parent can be set to a movie
+  # 
 end

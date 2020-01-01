@@ -33,6 +33,7 @@ module Plex
     }
 
     attr_reader :parts, :part
+    attr_accessor :parent 
 
     def initialize(hash)
       init_attributes(hash)

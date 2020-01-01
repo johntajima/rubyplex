@@ -63,7 +63,7 @@ module Plex
   class Movie
     include Plex::Base
 
-    attr_reader :medias
+    attr_reader :medias, :media
 
     MAP = {
       id: 'ratingKey',
@@ -95,7 +95,9 @@ module Plex
     end
 
     def by_file(file, full_path = false)
-      medias.find {|media| media.has_file?(file, full_path) }
+      media = medias.find {|media| media.has_file?(file, full_path) }
+      media.parent = self
+      media
     end
 
     def to_hash
