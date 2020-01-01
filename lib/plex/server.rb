@@ -31,7 +31,7 @@ module Plex
     end
 
     def library_by_path(path)
-      libraries.detect {|library| library.locations.include?(path) }
+      libraries.detect {|library| library.directories.include?(path) }
     end
 
 
@@ -90,5 +90,5 @@ module Plex
       }
     end
   end
-  
+
 end

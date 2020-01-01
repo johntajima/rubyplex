@@ -1,24 +1,49 @@
 module Plex
-  
+
+# /library/sections 
+# "Directory" => [
+# { "allowSync"=>true,
+#   "art"=>"/:/resources/movie-fanart.jpg",
+#   "composite"=>"/library/sections/8/composite/1542179087",
+#   "filters"=>true,
+#   "refreshing"=>false,
+#   "thumb"=>"/:/resources/movie.png",
+#   "key"=>"8",
+#   "type"=>"movie",
+#   "title"=>"4K Movies",
+#   "agent"=>"com.plexapp.agents.imdb",
+#   "scanner"=>"Plex Movie Scanner",
+#   "language"=>"en",
+#   "uuid"=>"36b7bf82-784e-4c0c-a219-e51549ebc255",
+#   "updatedAt"=>1536625963,
+#   "createdAt"=>1512309737,
+#   "scannedAt"=>1542179087,
+#   "Location"=>
+#    [{"id"=>17, "path"=>"/volume4/Media2/Movies_HQ"},
+#     {"id"=>22, "path"=>"/volume4/Media2/hq_downloads"}]}
+# ]
+
   class Library
     include Plex::Base
     include Plex::Sortable
 
+    MAP = {
+      id: 'key',
+      type: 'type',
+      title: 'title',
+      agent: 'agent',
+      updated_at: 'updatedAt',
+      directories: 'Location'
+    }
+
     def initialize(hash)
-      @attributes = hash.except('Metadata')
-      add_accessible_methods
+      init_attributes(hash)
+      @hash = hash.except('Metadata')
     end
 
-    def type
-      attributes.fetch('type')
-    end
-
-    def locations
-      attributes.fetch('Location', []).map {|l| l.fetch('path',nil) }.compact
-    end
 
     def total_count(options = {})
-      response = server.query(query_path(path), options.merge(page: 1, per_page: 0))
+      response = server.query(query_path('all'), options.merge(page: 1, per_page: 0))
       response.fetch('totalSize').to_i
     end
 
@@ -78,8 +103,15 @@ module Plex
     end
 
     def to_hash
-      hash = @attributes.dup
-      hash.merge('locations' => locations, 'total_count' => total_count)
+      attributes.merge(total_count: total_count)
+    end
+
+    def inspect
+      "#<Plex::Library:#{object_id}  id:#{id} #{title}>"
+    end
+
+    def movie_library?
+      type == 'movie'
     end
 
 
@@ -88,7 +120,7 @@ module Plex
     def get_entries(path, options = {})
       params = sanitize_options(options)
       results = server.query(query_path(path), params).fetch('Metadata')
-      model = type == 'movie' ? Plex::Movie : Plex::Show
+      model = movie_library? ? Plex::Movie : Plex::Show
       results.map {|e| model.new(e) }
     end
 
@@ -105,7 +137,7 @@ module Plex
     end
 
     def query_path(path)
-      "/library/sections/#{key}/#{path}"
+      "/library/sections/#{id}/#{path}"
     end
   end
 
