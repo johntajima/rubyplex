@@ -31,6 +31,7 @@ module Plex
     end
 
     def library_by_path(path)
+      path = File.dirname(File.join(path, "/test.txt")) # sanitize
       libraries.detect {|library| library.directories.include?(path) }
     end
 

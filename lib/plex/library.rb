@@ -47,7 +47,9 @@ module Plex
     end
 
     def all(options = {})
-      get_entries('all', options)
+      @all ||= begin
+        get_entries('all', options)
+      end
     end
 
     def unwatched(options = {})
