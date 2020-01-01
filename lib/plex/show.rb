@@ -83,7 +83,7 @@ module Plex
     end
 
     def by_file(file, full_path = false)
-      episodes.find {|e| e.has_file?(file, full_path) }
+      episodes.map(&:medias).flatten.find {|m| m.has_file?(file, full_path) }
     end
 
 

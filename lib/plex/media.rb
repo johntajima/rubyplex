@@ -32,14 +32,14 @@ module Plex
       video_codec: 'videoCodec'
     }
 
-    attr_reader :parts, :part
-    attr_accessor :parent 
+    attr_reader :parts, :part, :parent
 
-    def initialize(hash)
+    def initialize(hash, parent)
       init_attributes(hash)
       @parts ||= load_parts(hash.fetch('Part', []))
-      @part  = @parts.first
-      @hash  = hash.except("Part")
+      @part    = @parts.first
+      @hash    = hash.except("Part")
+      @parent  = parent
     end
 
     def has_file?(file, full_path = false)

@@ -88,7 +88,7 @@ module Plex
     # returns media if movie, episode if show
     # media.parent => movie, episode.show => show
     def find_by_filename(filename)
-      result = all.detect {|entry| entry.by_file(filename)}
+      result = all.detect {|entry| entry.by_file(filename) }
       result.by_file(filename)
     end
 

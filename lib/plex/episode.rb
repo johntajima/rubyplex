@@ -94,8 +94,8 @@ module Plex
       show
     end
 
-    def has_file?(file, full_path = false)
-      medias.any? {|m| m.has_file?(file, full_path) }
+    def by_file(file, full_path = false)
+      medias.find {|m| m.has_file?(file, full_path) }
     end
 
     def to_hash
@@ -115,7 +115,7 @@ module Plex
 
     def load_medias(hash)
       medias = hash.fetch("Media", [])
-      medias.map {|entry| Plex::Media.new(entry) }
+      medias.map {|entry| Plex::Media.new(entry, self) }
     end
   end
 
