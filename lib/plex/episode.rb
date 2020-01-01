@@ -90,6 +90,10 @@ module Plex
       end
     end
 
+    def parent
+      show
+    end
+
     def has_file?(file, full_path = false)
       medias.any? {|m| m.has_file?(file, full_path) }
     end
