@@ -11,6 +11,8 @@ require 'plex/movie'
 require 'plex/show'
 require 'plex/episode'
 require 'plex/media'
+require 'plex/part'
+
 require 'plex/errors'
 
 module Plex
