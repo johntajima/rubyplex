@@ -48,7 +48,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    vcr (5.0.0)
     webmock (3.7.6)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -63,7 +62,6 @@ DEPENDENCIES
   minitest (~> 5.0)
   rake (~> 10.0)
   rubyplex!
-  vcr
   webmock
 
 BUNDLED WITH

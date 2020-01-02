@@ -9,9 +9,8 @@ class ServerTest < Minitest::Test
   # .libraries()
 
   def test_libraries
-    libraries = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.libraries
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    libraries = @server.libraries
     assert_equal 3, libraries.count
     assert libraries.first.is_a?(Plex::Library)
   end
@@ -19,57 +18,51 @@ class ServerTest < Minitest::Test
   # .library()
 
   def test_library_returns_library_with_given_key
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library(2)
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library(2)
     assert_equal "TV Shows", library.title
   end
 
   def test_library_returns_library_with_given_title
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library("Movies")
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library("Movies")
     assert_equal "Movies", library.title
     assert_equal 1, library.id
   end
 
 
-  # .library_by_path()
+  # # .library_by_path()
 
   def test_library_by_path_returns_library_with_given_directory_full_path
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library_by_path("/volume1/Media/Movies")
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library_by_path("/volume1/Media/Movies")
     assert_equal "Movies", library.title
   end
 
   def test_library_by_path_returns_library_with_directory_that_has_subdirs
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library_by_path("/volume1/Media/Movies/Aliens")
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library_by_path("/volume1/Media/Movies/Aliens")
     assert_equal "Movies", library.title
   end
 
   def test_library_by_path_returns_library_with_directory_that_many_subdirs
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library_by_path("/volume1/Media/Movies/Aliens/Featurettes/subtitles")
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library_by_path("/volume1/Media/Movies/Aliens/Featurettes/subtitles")
     assert_equal "Movies", library.title
   end
 
   def test_library_by_path_returns_nil_if_directory_is_not_one_in_a_library
-    library = VCR.use_cassette("libraries",:match_requests_on => [:path]) do
-      @server.library_by_path("/volume1/Media/Movies_not_location")
-    end
+    stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
+    library = @server.library_by_path("/volume1/Media/Movies_not_location")
     assert_nil library
   end
 
-  # .query()
+  # # .query()
 
-  def test_query_sends_query_to_plex
-  end
+  # def test_query_sends_query_to_plex
+  # end
 
-  def test_query_supports_page_and_per_page_params
-  end
+  # def test_query_supports_page_and_per_page_params
+  # end
 
 end

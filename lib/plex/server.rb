@@ -65,6 +65,11 @@ module Plex
     #   p query_url, query_params
     end
 
+    def query_path(path)
+      path = path.gsub(/\A\//, '')
+      File.join("#{config[:host]}:#{config[:port]}", path)
+    end
+
 
     private
 
@@ -73,11 +78,6 @@ module Plex
       params.merge!(parse_query_params(options))
       params.merge!(pagination_params(options))
       params
-    end
-
-    def query_path(path)
-      path = path.gsub(/\A\//, '')
-      File.join("#{config[:host]}:#{config[:port]}", path)
     end
 
     def pagination_params(options)
