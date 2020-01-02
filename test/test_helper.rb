@@ -14,8 +14,9 @@ RESPONSES = {
   libraries: 'libraries.json',
   library_1: 'library_1.json',
   movie_all: 'library_1_all.json',
-  show_all: '',
-  show: '',
+  show_all: 'library_2_all.json',
+  show1: 'show_1.json',
+  show2: 'show_2.json',
   episodes: '',
   movie: ''
 }
