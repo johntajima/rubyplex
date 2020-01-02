@@ -1,44 +1,65 @@
 module Plex
+
+  # "videoResolution"=>"1080",
+  # "id"=>67507,
+  # "duration"=>6555370,
+  # "bitrate"=>2148,
+  # "width"=>1920,
+  # "height"=>800,
+  # "aspectRatio"=>2.35,
+  # "audioChannels"=>2,
+  # "audioCodec"=>"aac",
+  # "videoCodec"=>"h264",
+  # "container"=>"mp4",
+  # "videoFrameRate"=>"24p",
+  # "optimizedForStreaming"=>1,
+  # "audioProfile"=>"lc",
+  # "has64bitOffsets"=>false,
+  # "videoProfile"=>"high",
+  # "Part" => []
+
   class Media
     include Plex::Base
 
-    attr_reader :movie
+    MAP = {
+      id: 'id',
+      duration: 'duration',
+      width: 'width', 
+      height: 'height', 
+      resolution: 'videoResolution', 
+      audio_channels: 'audioChannels', 
+      audio_codec: 'audioCodec', 
+      video_codec: 'videoCodec'
+    }
 
-    def initialize(hash, parent: nil)
-      @attributes = hash
-      @attributes.merge!({"file_id" => file_id, "file" => file, "file_size" => file_size, "file_duration" => file_duration})
-      @movie = parent
-      add_accessible_methods
+    attr_reader :parts, :part, :parent
+
+    def initialize(hash, parent)
+      init_attributes(hash)
+      @parts ||= load_parts(hash.fetch('Part', []))
+      @part    = @parts.first
+      @hash    = hash.except("Part")
+      @parent  = parent
     end
 
-
-    def file_id 
-      parts.first.fetch('id')
+    def has_file?(file, full_path = false)
+      parts.any? {|part| part.has_file?(file, full_path) }
     end
 
-    def file
-      parts.first.fetch('file')
+    def to_hash
+      attributes.merge(parts: parts.map(&:to_hash))
     end
-
-    def file_size
-      parts.first.fetch('size')
-    end
-
-    def file_duration
-      parts.first.fetch('duration',nil)
-    end
-
-    def parts
-      attributes.fetch('Part')
-    end
-
 
     def inspect
-      "#<Plex::Media::#{object_id} #{@attributes}>"
+      "#<Plex::Media:#{object_id} id:#{id}>"
     end
+
 
     private
 
+    def load_parts(parts)
+      parts.map {|p| Plex::Part.new(p) }
+    end
   end
 
 end

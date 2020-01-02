@@ -12,27 +12,41 @@ module Plex
 
     # Public Methods
 
-    # returns array of sections
-    def sections(options: {})
-      @sections ||= begin
+    def libraries(options = {})
+      @libraries ||= begin
         results = query("library/sections", options)
-        results.fetch('Directory', []).map {|entry| Plex::Section.new(entry) }
+        entries = results.fetch('Directory', [])
+        entries.map {|entry| Plex::Library.new(entry) }
       end
     end
 
-    def section(query)
-      section = if query.to_i.to_s == query || query.is_a?(Integer)
-        sections.detect {|s| s.key.to_i == query.to_i }
+    def library(query)
+      library = if query.to_i.to_s == query || query.is_a?(Integer)
+        libraries.detect {|s| s.id.to_i == query.to_i }
       else
-        sections.detect {|s| s.title == query }
+        libraries.detect {|s| s.title == query }
       end
-      raise NotFoundError, "Could not find Section with that ID or Name" if section.nil?
-      section
+      raise NotFoundError, "Could not find Section with that ID or Name" if library.nil?
+      library
     end
 
-    def section_by_path(path)
-      sections.detect {|section| section.locations.include?(path) }
+    def library_by_path(path)
+      # detect full path
+      path = File.dirname(File.join(path, 'foo.bar'))
+      if found = libraries.detect {|l| l.directories.include?(path) }
+        return found
+      end
+
+      # detect subpaths
+      path_chunks = path.split("/").reject(&:blank?)
+      (path_chunks.length-1).downto(1).each do |i|
+        subpath = path_chunks[i]
+        if found = libraries.detect {|l| l.directories.any? {|d| d.end_with?(subpath) } }
+          return found
+        end
+      end
     end
+
 
     def query(path, options = {})
       query_url     = query_path(path)
@@ -88,6 +102,6 @@ module Plex
         :accept        => :json
       }
     end
-
   end
+
 end
