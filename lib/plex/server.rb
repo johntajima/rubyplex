@@ -38,13 +38,14 @@ module Plex
       end
 
       # detect subpaths
-      path_chunks = path.split("/").reject(&:blank?)
+      path_chunks = path.split("/").reject(&:empty?)
       (path_chunks.length-1).downto(1).each do |i|
         subpath = path_chunks[i]
         if found = libraries.detect {|l| l.directories.any? {|d| d.end_with?(subpath) } }
           return found
         end
       end
+      nil
     end
 
 

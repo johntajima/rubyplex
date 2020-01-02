@@ -1,5 +1,4 @@
-require 'active_support'
-require 'active_support/core_ext'
+require 'core_ext/hash'
 require 'json'
 require 'rest-client'
 require 'plex/version'
