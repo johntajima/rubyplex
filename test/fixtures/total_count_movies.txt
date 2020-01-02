@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 453
+X-Plex-Container-Start: 0
+X-Plex-Container-Total-Size: 2148
+Connection: Keep-Alive
+Keep-Alive: timeout=20
+X-Plex-Protocol: 1.0
+Cache-Control: no-cache
+Date: Thu, 02 Jan 2020 18:42:17 GMT
+
+{"MediaContainer":{"size":0,"totalSize":100,"allowSync":true,"art":"/:/resources/movie-fanart.jpg","identifier":"com.plexapp.plugins.library","librarySectionID":1,"librarySectionTitle":"Movies","librarySectionUUID":"0f2755ad-7ed8-42fb-909a-eb2678369768","mediaTagPrefix":"/system/bundle/media/flags/","mediaTagVersion":1574417695,"offset":0,"thumb":"/:/resources/movie.png","title1":"Movies","title2":"All Movies","viewGroup":"movie","viewMode":65592}}

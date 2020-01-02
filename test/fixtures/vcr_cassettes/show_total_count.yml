@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://192.168.2.5:32400/library/sections/2/all
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - rest-client/2.1.0 (darwin19.0.0 x86_64) ruby/2.6.3p62
+      X-Plex-Token:
+      - _3ZFfNvrYhZ9awqszJ_m
+      X-Plex-Container-Start:
+      - '0'
+      X-Plex-Container-Size:
+      - '0'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - 192.168.2.5:32400
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      X-Plex-Container-Start:
+      - '0'
+      X-Plex-Container-Total-Size:
+      - '59'
+      Connection:
+      - Keep-Alive
+      Keep-Alive:
+      - timeout=20
+      X-Plex-Protocol:
+      - '1.0'
+      X-Plex-Content-Original-Length:
+      - '466'
+      X-Plex-Content-Compressed-Length:
+      - '312'
+      Content-Length:
+      - '312'
+      Cache-Control:
+      - no-cache
+      Date:
+      - Thu, 02 Jan 2020 17:51:35 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: '{"MediaContainer":{"size":0,"totalSize":50,"allowSync":true,"art":"/:/resources/show-fanart.jpg","identifier":"com.plexapp.plugins.library","librarySectionID":2,"librarySectionTitle":"TV
+        Shows","librarySectionUUID":"70ba12bf-8ab7-40df-93c4-383b080589d5","mediaTagPrefix":"/system/bundle/media/flags/","mediaTagVersion":1574417695,"nocache":true,"offset":0,"thumb":"/:/resources/show.png","title1":"TV
+        Shows","title2":"All Shows","viewGroup":"show","viewMode":65592}}'
+    http_version: 
+  recorded_at: Thu, 02 Jan 2020 17:51:33 GMT
+recorded_with: VCR 5.0.0

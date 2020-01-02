@@ -3,9 +3,6 @@ require "test_helper"
 class ServerTest < Minitest::Test
 
   def setup
-    Plex.configure do |config|
-      config[:host] = "192.168.2.5"
-    end
     @server = Plex.server
   end
 
