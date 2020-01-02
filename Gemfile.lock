@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubyplex (0.4.3)
+    rubyplex (0.4.4)
       activesupport
       json
       rest-client

@@ -31,13 +31,19 @@ module Plex
     end
 
     def library_by_path(path)
-      path = File.dirname(File.join(path, "/test.txt")) # sanitize
-      found = libraries.detect {|library| library.directories.include?(path) }
-      library = if found
-        found
-      else
-        base_dir = File.basename(path)
-        libraries.detect {|library| library.directories.any? {|d| d.end_with?(base_dir)}}
+      # detect full path
+      path = File.dirname(File.join(path, 'foo.bar'))
+      if found = libraries.detect {|l| l.directories.include?(path) }
+        return found
+      end
+
+      # detect subpaths
+      path_chunks = path.split("/").reject(&:blank?)
+      (path_chunks.length-1).downto(1).each do |i|
+        subpath = path_chunks[i]
+        if found = libraries.detect {|l| l.directories.any? {|d| d.end_with?(subpath) } }
+          return found
+        end
       end
     end
 
