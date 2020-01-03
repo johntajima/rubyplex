@@ -17,7 +17,8 @@ RESPONSES = {
   show_1: 'show_1.json',
   show_2: 'show_2.json',
   episodes: '',
-  movie1: 'movie_1.json'
+  movie1: 'movie_1.json',
+  show_1_details: 'show_details.json'
 }
 
 

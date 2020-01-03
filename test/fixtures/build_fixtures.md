@@ -35,16 +35,20 @@ curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
          --header "X-Plex-Container-Size: 2"\
          http://192.168.2.5:32400/library/sections/2/all > test/fixtures/shows_all.txt
 
-# show 1
+# show 1 children
 curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
          --header "Accept: application/json"\
          http://192.168.2.5:32400/library/metadata/10401/allLeaves > test/fixtures/show_1.txt
 
-# show 2
+# show 2 children
 curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
          --header "Accept: application/json"\
          http://192.168.2.5:32400/library/metadata/10320/allLeaves > test/fixtures/show_1.txt
 
+# show 1 metadata
+curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
+         --header "Accept: application/json"\
+         http://192.168.2.5:32400/library/metadata/10401 > test/fixtures/show_details.txt
 
 # movie 1
 curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
