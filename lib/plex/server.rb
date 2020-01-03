@@ -38,13 +38,14 @@ module Plex
       end
 
       # detect subpaths
-      path_chunks = path.split("/").reject(&:blank?)
+      path_chunks = path.split("/").reject(&:empty?)
       (path_chunks.length-1).downto(1).each do |i|
         subpath = path_chunks[i]
         if found = libraries.detect {|l| l.directories.any? {|d| d.end_with?(subpath) } }
           return found
         end
       end
+      nil
     end
 
 
@@ -64,6 +65,11 @@ module Plex
     #   p query_url, query_params
     end
 
+    def query_path(path)
+      path = path.gsub(/\A\//, '')
+      File.join("#{config[:host]}:#{config[:port]}", path)
+    end
+
 
     private
 
@@ -72,11 +78,6 @@ module Plex
       params.merge!(parse_query_params(options))
       params.merge!(pagination_params(options))
       params
-    end
-
-    def query_path(path)
-      path = path.gsub(/\A\//, '')
-      File.join("#{config[:host]}:#{config[:port]}", path)
     end
 
     def pagination_params(options)

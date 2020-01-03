@@ -30,7 +30,7 @@ module Plex
               value.map {|entry| entry.fetch('tag',nil)}.compact
             end
           else
-            value
+            value.to_i.to_s == value ? value.to_i : value
           end
         end
         h

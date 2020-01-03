@@ -64,26 +64,24 @@ module Plex
       #{}"guid"=>"com.plexapp.agents.thetvdb://279536?lang=en"
     end
 
-    def to_hash
-      attributes.merge(episodes: episodes.map(&:to_hash))
-    end
-
-    def inspect
-      "#<Plex::Show:#{object_id} id:#{id} #{title} (#{year})>"
-    end
-
-    # return specific episode
     def episode(season, index)
       episodes.find {|e| e.season == season && e.episode == index }
     end
 
-    # returns all episodes where season match
     def season(season)
       episodes.select {|e| e.season == season }
     end
 
     def by_file(file, full_path = false)
       episodes.map(&:medias).flatten.find {|m| m.has_file?(file, full_path) }
+    end
+
+    def to_hash
+      attributes.merge(episodes: episodes.map(&:to_hash))
+    end
+
+    def inspect
+      "#<Plex::Show:#{object_id} id:#{id} #{title} (#{year})>"
     end
 
 
