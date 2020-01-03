@@ -77,36 +77,74 @@ class LibraryTest < Minitest::Test
     assert @results.first.is_a?(Plex::Show)
   end
 
-  def test_all_with_per_page_options
-  end
-
   def test_all_with_pagination
+    stub_request(:get, @server.query_path("/library/sections/3/all"))
+      .with(headers: {'X-Plex-Container-Start' => 10, 'X-Plex-Container-Size' => 10})
+      .to_return(body: load_response(:show_all))
+      
+    @library = Plex.server.library(3)
+    @results = @library.all(page: 2, per_page: 10)
   end
 
-
-
-  # various query methods
-  def test_newest_sends_right_query_string_to_server
+  def test_recentlyAdded
+    stub_request(:get, @server.query_path("/library/sections/3/recentlyAdded")).to_return(body: load_response(:show_all))
+    @library = Plex.server.library(3)
+    @results = @library.recently_added
+    assert_equal 2, @results.count
   end
 
   # .find_by_filename
   def test_find_by_filename_returns_media_model_for_movie
+    stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
+    filename = "/volume1/Media/Movies/3 Days to Kill (2014)/3 Days to Kill (2014) [1080p] [AAC 2ch].mp4"
+    @library = Plex.server.library(3)
+    media = @library.find_by_filename(filename)
+    assert media.is_a?(Plex::Media)
+    assert media.parent.is_a?(Plex::Movie)
+  end
+
+  def test_find_by_filename_returns_nil_if_not_found
+    stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
+    filename = "/volume1/Media/Movies/some_invalid_movie.mp4"
+    @library = Plex.server.library(3)
+    media = @library.find_by_filename(filename)
+    assert_nil media
   end
 
   # .find_by_filename
   def test_find_by_filename_returns_media_model_for_show
+    stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:show_all))
+    stub_request(:get, @server.query_path("/library/metadata/10401/allLeaves")).to_return(body: load_response(:show1))
+    stub_request(:get, @server.query_path("/library/metadata/10320/allLeaves")).to_return(body: load_response(:show2))
+    @library = Plex.server.library(2)
+
+    file = "/volume1/Media/TV/Band of Brothers/Band of Brothers S01/Band of Brothers S01E01 [1080p].mp4"
+    media = @library.find_by_filename(file)
+    assert media.parent.is_a?(Plex::Episode)
   end
 
 
   # .to_hash
   def test_to_hash
+    stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
+    @library = Plex.server.library(3)
+    hash = @library.to_hash
+    keys = [:id, :type, :title, :updated_at, :directories, :total_count]
+    
+    assert keys.all? {|key| hash.keys.include?(key) }
+    assert_equal @library.id, hash[:id]
+    assert_equal "movie", hash[:type]
   end
 
   # .movie_library?
   def test_movie_library_returns_true_if_library_is_for_movies
+    @library = Plex.server.library(3)
+    assert @library.movie_library?
   end
 
   def test_movie_library_returns_false_if_library_is_for_shows
+    @library = Plex.server.library(2)
+    assert !@library.movie_library?
   end
 
 end

@@ -89,7 +89,7 @@ module Plex
     # media.parent => movie, episode.show => show
     def find_by_filename(filename)
       result = all.detect {|entry| entry.by_file(filename) }
-      result.by_file(filename)
+      result.by_file(filename) if result
     end
 
     def search(query, options = {})
