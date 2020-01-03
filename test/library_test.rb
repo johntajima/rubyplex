@@ -27,7 +27,9 @@ class LibraryTest < Minitest::Test
     stub_request(:get, @server.query_path("/library/sections")).to_return(body: load_response(:libraries))
   end
 
+
   # .new
+
   def test_new_library_creates_library_model
     @library = Plex::Library.new(@library_params)
     assert @library.is_a?(Plex::Library)
@@ -36,7 +38,9 @@ class LibraryTest < Minitest::Test
     assert_equal 2, @library.directories.count
   end
 
+
   # .total_count
+
   def test_total_returns_total_entries_in_library_for_movies
     stub_request(:get, @server.query_path("/library/sections/1/all")).to_return(body: load_response(:movie_count))
 
@@ -55,7 +59,9 @@ class LibraryTest < Minitest::Test
     assert_equal 50, count
   end
 
+
   # .all
+
   def test_all_returns_all_movies
     stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
 
@@ -86,6 +92,9 @@ class LibraryTest < Minitest::Test
     @results = @library.all(page: 2, per_page: 10)
   end
 
+
+  # recentlyAdded
+
   def test_recentlyAdded
     stub_request(:get, @server.query_path("/library/sections/3/recentlyAdded")).to_return(body: load_response(:show_all))
     @library = Plex.server.library(3)
@@ -93,7 +102,9 @@ class LibraryTest < Minitest::Test
     assert_equal 2, @results.count
   end
 
+
   # .find_by_filename
+
   def test_find_by_filename_returns_media_model_for_movie
     stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
     filename = "/volume1/Media/Movies/3 Days to Kill (2014)/3 Days to Kill (2014) [1080p] [AAC 2ch].mp4"
@@ -111,7 +122,6 @@ class LibraryTest < Minitest::Test
     assert_nil media
   end
 
-  # .find_by_filename
   def test_find_by_filename_returns_media_model_for_show
     stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:show_all))
     stub_request(:get, @server.query_path("/library/metadata/10401/allLeaves")).to_return(body: load_response(:show1))
@@ -125,6 +135,7 @@ class LibraryTest < Minitest::Test
 
 
   # .to_hash
+
   def test_to_hash
     stub_request(:get, @server.query_path("/library/sections/3/all")).to_return(body: load_response(:movie_all))
     @library = Plex.server.library(3)
@@ -136,7 +147,9 @@ class LibraryTest < Minitest::Test
     assert_equal "movie", hash[:type]
   end
 
+
   # .movie_library?
+  
   def test_movie_library_returns_true_if_library_is_for_movies
     @library = Plex.server.library(3)
     assert @library.movie_library?
