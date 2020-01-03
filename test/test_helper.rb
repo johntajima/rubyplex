@@ -13,10 +13,9 @@ RESPONSES = {
   show_count: 'shows_total_count.json',
   libraries: 'libraries.json',
   library_1: 'library_1.json',
-  movie_all: 'library_1_all.json',
-  show_all: 'library_2_all.json',
-  show1: 'show_1.json',
-  show2: 'show_2.json',
+  library_2: 'library_2.json',
+  show_1: 'show_1.json',
+  show_2: 'show_2.json',
   episodes: '',
   movie1: 'movie_1.json'
 }
@@ -26,4 +25,3 @@ def load_response(key)
   file = RESPONSES.fetch(key)
   open("test/fixtures/#{file}").read
 end
-
