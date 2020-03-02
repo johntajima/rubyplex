@@ -13,11 +13,9 @@ module Plex
     # Public Methods
 
     def libraries(options = {})
-      @libraries ||= begin
-        results = query("library/sections", options)
-        entries = results.fetch('Directory', [])
-        entries.map {|entry| Plex::Library.new(entry) }
-      end
+      results = query("library/sections", options)
+      entries = results.fetch('Directory', [])
+      entries.map {|entry| Plex::Library.new(entry) }
     end
 
     def library(query)
