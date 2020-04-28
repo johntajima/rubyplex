@@ -99,6 +99,10 @@ module Plex
       medias.find {|media| media.has_file?(file, full_path) }
     end
 
+    def files
+      medias.map {|m| m.files}.flatten
+    end
+
     def to_hash
       attributes.merge(medias: medias.map(&:to_hash), imdb: imdb, tmdb: tmdb)
     end

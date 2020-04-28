@@ -80,6 +80,12 @@ module Plex
       attributes.merge(episodes: episodes.map(&:to_hash))
     end
 
+    def files
+      hash = {}
+      episodes.each {|e| hash[e.label] = e.files }
+      hash
+    end
+
     def inspect
       "#<Plex::Show:#{object_id} id:#{id} #{title} (#{year})>"
     end

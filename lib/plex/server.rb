@@ -46,6 +46,26 @@ module Plex
       nil
     end
 
+    # /library/metadata/28191 or 28191
+    def find(key)
+      path = if key.is_a?(String) && key.starts_with?("/library/metadata")
+        key
+      else
+        "/library/metadata/#{key}"
+      end
+      results = query(path)
+      case results['size']
+      when 1
+        result = results["Metadata"].first
+        model = result['type'] == 'movie' ? Plex::Movie : Plex::Show
+        model.new(result)
+      when 0
+        p "No results found!"
+      else
+        raise StandardError, "Found #{results['size']} records for #{key}"
+      end
+    end
+
 
     def query(path, options = {})
       query_url     = query_path(path)

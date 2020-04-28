@@ -46,6 +46,10 @@ module Plex
       parts.any? {|part| part.has_file?(file, full_path) }
     end
 
+    def files
+      parts.map {|p| p.file }
+    end
+
     def to_hash
       attributes.merge(parts: parts.map(&:to_hash))
     end

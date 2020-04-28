@@ -98,12 +98,20 @@ module Plex
       medias.find {|m| m.has_file?(file, full_path) }
     end
 
+    def files
+      medias.map {|m| m.files }.flatten
+    end
+
     def to_hash
       attributes.merge(medias: medias.map(&:to_hash))
     end
 
     def inspect
-      "#<Plex::Episode:#{object_id} id:#{id} #{show_title} S#{"%02d" % season}E#{"%02d" % episode}>"
+      "#<Plex::Episode:#{object_id} id:#{id} #{show_title} #{label}>"
+    end
+
+    def label 
+      "S#{"%02d" % season}E#{"%02d" % episode}"
     end
 
 
