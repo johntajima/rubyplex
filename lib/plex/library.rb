@@ -23,39 +23,7 @@ module Plex
 #     {"id"=>22, "path"=>"/volume4/Media2/hq_downloads"}]}
 # ]
 
-  class Library
-
-    attr_accessor :hash
-
-    DATE_ATTRIBUTES = %w|updatedAt createdAt scannedAt|
-
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def method_missing(arg, *params)
-      key = convert_to_camel(arg.to_s)
-      super unless hash.key?(key)
-      value = hash.fetch(key, nil)
-      # sanitize output
-      if DATE_ATTRIBUTES.include?(key)
-        Time.at(value)
-      else
-        value
-      end
-    end
-
-    def keys
-      hash.keys
-    end
-
-    def to_hash
-      hash
-    end
-
-    def to_json
-      hash.to_json
-    end
+  class Library < Plex::Base
 
     def locations
       @locations ||= begin
@@ -65,16 +33,38 @@ module Plex
       end
     end
 
+    def videos
+      @videos ||= begin
+        entries = get_entries('all')
+        p "Got #{entries.size} entires"
+        entries.map do |entry| 
+          movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
+        end
+      end
+    end
+
+    def movie_library?
+      type == 'movie'
+    end
+
+
+    def inspect
+      "<Plex::Library::#{type.capitalize} id:#{key} #{title}>"
+    end
 
     private
 
-    def convert_to_camel(arg)
-      list = arg.split("_")
-      return arg if list.size == 1
-      first = list.shift
-      rest = list.map(&:capitalize).join
-      "#{first}#{rest}"
+
+    def get_entries(path)
+      response = server.query(query_path(path))
+      p response.fetch("Metadata")
+      response.fetch("Metadata",[])
     end
+
+    def query_path(path)
+      "/library/sections/#{key}/#{path}"
+    end
+
   end
   #   include Plex::Base
   #   include Plex::Sortable

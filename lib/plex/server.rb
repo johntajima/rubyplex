@@ -16,7 +16,7 @@ module Plex
     def libraries
       response = query('library/sections')
       data = response.fetch("Directory", [])
-      data.map {|library| Plex::Library.new(library) }
+      data.map {|library| Plex::Library.new(library, server: self) }
     end
 
     def library(id)
@@ -30,9 +30,6 @@ module Plex
     def library_by_path(path)
       libraries.detect {|library| library.has_path?(path) }
     end
-
-
-    private
 
 
     def query(path, options: {})
@@ -50,19 +47,19 @@ module Plex
     end
 
 
+    private
+
+
+
     def conn
-      @conn ||= begin
-        Faraday.new(
-          url: base_url,
-          params: {
-            "X-Plex-Token" => token
-          },
-          headers: {
-            'Content-Type' => 'application/json', 
-            "Accept"       => "application/json"
-          }
-        )
-      end
+      Faraday.new(
+        url: base_url,
+        params: {},
+        headers: {
+          "X-Plex-Token" => token,
+          "Accept"  => "application/json"
+        }
+      )
     end
 
     def base_url
