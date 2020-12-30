@@ -1,5 +1,4 @@
 module Plex
-
   class Server
 
     DEFAULT_HOST = '127.0.0.1'
@@ -7,17 +6,29 @@ module Plex
 
     attr_accessor :host, :port, :token
 
-    def initialize(options = Plex::DEFAULT_CONFIG)
-      @host  = options.fetch(:host, DEFAULT_HOST)
-      @port  = options.fetch(:port, DEFAULT_PORT)
-      @token = options.fetch(:token, nil)
+    def initialize(options = {})
+      params = Plex::DEFAULT_CONFIG.merge(options)
+      @host  = params.fetch(:host, DEFAULT_HOST)
+      @port  = params.fetch(:port, DEFAULT_PORT)
+      @token = params.fetch(:token, nil)
     end
 
     def libraries
-      query('library/sections')
+      response = query('library/sections')
+      data = response.fetch("Directory", [])
+      data.map {|library| Plex::Library.new(library) }
     end
 
     def library(id)
+      if id.is_a?(String)
+        libraries.detect {|library| library.title == id }
+      else
+        libraries.detect {|library| library.id == id.to_i }
+      end
+    end
+
+    def library_by_path(path)
+      libraries.detect {|library| library.has_path?(path) }
     end
 
 
@@ -26,7 +37,7 @@ module Plex
 
     def query(path, options: {})
       # build path
-      url = ""
+      url = path
       # build options
       params = {}
       # get response
@@ -35,7 +46,7 @@ module Plex
       response = conn.get(url) do |req|
 
       end
-      p response
+      JSON.parse(response.body).fetch("MediaContainer", nil)
     end
 
 
@@ -44,10 +55,12 @@ module Plex
         Faraday.new(
           url: base_url,
           params: {
-            "X-Plex-Token" => token,
-            :accept        => :json
+            "X-Plex-Token" => token
           },
-          headers: {'Content-Type': 'Application/json'}
+          headers: {
+            'Content-Type' => 'application/json', 
+            "Accept"       => "application/json"
+          }
         )
       end
     end
