@@ -11,9 +11,7 @@ class PlexTest < Minitest::Test
       port: 1000, host: '192.168.1.1', token: 'token'
     }
     @server = Plex::Server.new(my_config)
-    assert_equal 1000, @server.config[:port]
-    assert_equal "192.168.1.1", @server.config[:host]
-    assert_equal "token", @server.config[:token]
+    p @server.libraries
   end
 
 end
