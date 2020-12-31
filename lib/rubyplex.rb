@@ -14,16 +14,11 @@ require 'plex/stream'
 
 module Plex
 
-  DFLT_CONFIG_FILE = File.expand_path("../.rubyplex.yml")
+  DFLT_CONFIG_FILE = File.expand_path("../rubyplex.yml")
   HOME_CONFIG_FILE = File.expand_path("~/.rubyplex.yml")
-  
-  config = if File.exists?(HOME_CONFIG_FILE)
-    YAML.load(File.read(HOME_CONFIG_FILE))
-  elsif File.exists?(DFLT_CONFIG_FILE)
-    YAML.load(File.read(DFLT_CONFIG_FILE))
-  else 
-    {}
-  end
+
+  config =   YAML.load(File.read(HOME_CONFIG_FILE)) if File.exists?(HOME_CONFIG_FILE) 
+  config ||= YAML.load(File.read(DFLT_CONFIG_FILE)) if File.exists?(DFLT_CONFIG_FILE)
   
   DEFAULT_CONFIG = config.fetch("RUBYPLEX", {}).transform_keys(&:to_sym)
 

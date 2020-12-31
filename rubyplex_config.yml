@@ -1,0 +1,5 @@
+# move to ~/.rubyplex.yml and fill out plex details. For https:// use 'https://x.x.x.x' for host
+RUBYPLEX:
+  host:
+  port: 32400
+  token:
