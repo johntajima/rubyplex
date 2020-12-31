@@ -58,72 +58,43 @@ module Plex
 #  },
 #  ...
 # ]
-  class Episode
-    include Plex::Base
 
-    MAP = {
-      id: 'ratingKey',
-      episode: 'index',
-      season: 'parentIndex',
-      title: 'title',
-      year: 'year',
-      season_title: 'parentTitle',
-      show_title: 'grandparentTitle',
-      show_key: 'grandparentKey',
-      duration: 'duration',
-      release_date: 'originallyAvailableAt'
-    }
+  class Episode < Plex::Base
 
-    attr_reader :medias
-
-    def initialize(hash)
-      init_attributes(hash)
-      @medias = load_medias(hash)
-      @hash = hash.except('Media')
-    end
-
-    def show
-      @show ||= begin
-        response = server.query(show_key)
-        data = response.fetch('Metadata', []).first
-        Plex::Show.new(data)
-      end
-    end
-
-    def parent
-      show
-    end
-
-    def by_file(file, full_path = false)
-      medias.find {|m| m.has_file?(file, full_path) }
-    end
-
-    def files
-      medias.map {|m| m.files }.flatten
-    end
-
-    def to_hash
-      attributes.merge(medias: medias.map(&:to_hash))
+    def show_title
+      grandparent_title
     end
 
     def inspect
-      "#<Plex::Episode:#{object_id} id:#{id} #{show_title} #{label}>"
+      "#<Plex::Episode id:#{rating_key} '#{grandparent_title}' #{label}>"
+    end
+
+    def medias
+      @medias ||= hash.fetch("Media", []).map {|entry| Plex::Media.new(entry) }
+    end
+
+    def has_file?(filename, full_path: false)
+      medias.any? {|media| media.has_file?(filename, full_path: full_path)}
+    end
+
+    def season
+      parent_index
+    end
+
+    def episode
+      index
+    end
+
+    def release_date
+      originally_available_at
     end
 
     def label 
       "S#{"%02d" % season}E#{"%02d" % episode}"
     end
 
-
-    private
-
-    def key
-      hash.fetch('key')
-    end
-
-    def load_medias(hash)
-      medias = hash.fetch("Media", [])
-      medias.map {|entry| Plex::Media.new(entry, self) }
+    def files
+      medias.map(&:files).flatten
     end
   end
 

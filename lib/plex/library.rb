@@ -57,20 +57,24 @@ module Plex
     end
 
     def find_by_filename(filename, full_path: false)
-      all.detect {|movie| movie.has_file?(filename, full_path: full_path)}
+      all.detect {|video| video.has_file?(filename, full_path: full_path)}
     end
 
     def find_by_title(title)
-      all.detect {|movie| movie.title == title }
+      all.detect {|video| video.title == title }
     end
 
     def find_by_year(year)
-      all.select {|movie| movie.year.to_i == year.to_i}
+      all.select {|video| video.year.to_i == year.to_i}
     end
 
 
     def movie_library?
       type == 'movie'
+    end
+
+    def show_library?
+      type == 'show'
     end
 
     def inspect
@@ -93,34 +97,6 @@ module Plex
     end
 
   end
-  #   include Plex::Base
-  #   include Plex::Sortable
-
-  #   MAP = {
-  #     id: 'key',
-  #     type: 'type',
-  #     title: 'title',
-  #     agent: 'agent',
-  #     updated_at: 'updatedAt',
-  #     directories: 'Location'
-  #   }
-
-  #   def initialize(hash)
-  #     init_attributes(hash)
-  #     @hash = hash.except('Metadata')
-  #   end
-
-  #   def total_count(options = {})
-  #     response = server.query(query_path('all'), options.merge(page: 1, per_page: 0))
-  #     response.fetch('totalSize').to_i
-  #   end
-
-  #   def all(options = {})
-  #     @all ||= begin
-  #       get_entries('all', options)
-  #     end
-  #   end
-
   #   def unwatched(options = {})
   #     get_entries('unwatched', options)
   #   end
@@ -154,57 +130,11 @@ module Plex
   #     get_entries('all', params)
   #   end
 
-  #   # returns media if movie, episode if show
-  #   # media.parent => movie, episode.show => show
-  #   def find_by_filename(filename)
-  #     result = all.detect {|entry| entry.by_file(filename) }
-  #     result.by_file(filename) if result
-  #   end
-
   #   def search(query, options = {})
   #     # search by filename
   #     # search by title
   #     # search by year?
   #     # search by ?
   #   end
-
-  #   def to_hash
-  #     attributes.merge(total_count: total_count)
-  #   end
-
-  #   def inspect
-  #     "#<Plex::Library:#{object_id}  id:#{id} #{title}>"
-  #   end
-
-  #   def movie_library?
-  #     type == 'movie'
-  #   end
-
-
-  #   private
-
-  #   def get_entries(path, options = {})
-  #     params = sanitize_options(options)
-  #     results = server.query(query_path(path), params).fetch('Metadata')
-  #     model = movie_library? ? Plex::Movie : Plex::Show
-  #     results.map {|e| model.new(e) }
-  #   end
-
-  #   def sanitize_options(options)
-  #     params = {}
-  #     if options.key?(:sort)
-  #       params['type'] = 1
-  #       params['sort'] = SORT_ORDER.fetch(options[:sort], nil)
-  #       if direction = options.fetch(:direction, nil)
-  #         params['sort'] = params['sort'] + ":desc"
-  #       end
-  #     end
-  #     params.merge(options.except(:sort, :direction))
-  #   end
-
-  #   def query_path(path)
-  #     "/library/sections/#{id}/#{path}"
-  #   end
-  # end
 
 end
