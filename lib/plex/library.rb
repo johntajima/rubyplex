@@ -60,12 +60,16 @@ module Plex
       get_entries('newest', options: options)
     end
 
+    def recently_added(options: {})
+      get_entries('recentlyAdded', options: options)
+    end
+
     def videos(options: {})
       @videos ||= get_entries('all', options: options)
     end
 
     def find_by_filename(filename, full_path: false)
-      all.detect {|video| video.has_file?(filename, full_path: full_path)}
+      all.detect {|video| video.media_by_filename(filename, full_path: full_path)}
     end
 
     def find_by_title(title)
@@ -75,7 +79,6 @@ module Plex
     def find_by_year(year)
       all.select {|video| video.year.to_i == year.to_i}
     end
-
 
     def movie_library?
       type == 'movie'

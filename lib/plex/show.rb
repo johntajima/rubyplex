@@ -72,6 +72,11 @@ module Plex
       episodes.any? {|e| e.has_file?(filename, full_path: full_path) }
     end
 
+
+    def media_by_filename(filename, full_path: false)
+      episodes.detect {|e| e.has_file?(filename, full_path: full_path)}
+    end
+
     def files
       episodes.map(&:files).flatten
     end

@@ -76,13 +76,12 @@ module Plex
 
     def medias
       @medias ||= begin
-        @hash = server.data_query(key).first
         hash.fetch("Media", []).map {|entry| Plex::Media.new(entry) }
       end
     end
 
-    def has_file?(filename, full_path: false)
-      medias.any? {|media| media.has_file?(filename, full_path: full_path)}
+    def media_by_filename(filename, full_path: false)
+      medias.detect {|m| m.has_file?(filename, full_path: full_path)}
     end
 
     def files
