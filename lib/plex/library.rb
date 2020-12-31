@@ -33,32 +33,59 @@ module Plex
       end
     end
 
-    def videos
-      @videos ||= begin
-        entries = get_entries('all')
-        p "Got #{entries.size} entires"
-        entries.map do |entry| 
-          movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
-        end
+    def total_count
+      @total_count ||= begin
+        response = server.query(query_path('all'), options: {page: 1, per_page: 0})
+        response.fetch('totalSize').to_i
       end
     end
+
+    def all(options = {})
+      videos
+    end
+
+    def unwatched(options = {})
+      get_entries('unwatched', options)
+    end
+
+    def newest(options = {})
+      get_entries('newest', options)
+    end
+
+    def videos(options = {})
+      @videos ||= get_entries('all')
+    end
+
+    def find_by_filename(filename, full_path: false)
+      all.detect {|movie| movie.has_file?(filename, full_path: full_path)}
+    end
+
+    def find_by_title(title)
+      all.detect {|movie| movie.title == title }
+    end
+
+    def find_by_year(year)
+      all.select {|movie| movie.year.to_i == year.to_i}
+    end
+
 
     def movie_library?
       type == 'movie'
     end
 
-
     def inspect
       "<Plex::Library::#{type.capitalize} id:#{key} #{title}>"
     end
 
+
     private
 
 
-    def get_entries(path)
-      response = server.query(query_path(path))
-      p response.fetch("Metadata")
-      response.fetch("Metadata",[])
+    def get_entries(path, options = {})
+      entries = server.data_query(query_path(path))
+      entries.map do |entry| 
+        movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
+      end
     end
 
     def query_path(path)

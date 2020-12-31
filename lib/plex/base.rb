@@ -4,20 +4,26 @@ module Plex
 
     attr_reader   :hash, :server
 
-    DATE_ATTRIBUTES = %w|updatedAt createdAt scannedAt originallyAvailableAt|
+    TIME_ATTRIBUTES = %w|updatedAt createdAt addedAt scannedAt|
+    DATE_ATTRIBUTES = ["originallyAvailableAt"]
+    TAG_ATTRIBUTES  = ["Genre", "Director", "Writer", "Country", "Role"]
 
-    def initialize(hash, server:)
+    def initialize(hash, server: nil)
       @hash = hash
       @server = server
     end
 
     def method_missing(arg, *params)
       key = convert_to_camel(arg.to_s)
+      
+      return tag_values(key) if hash.key?(key.capitalize)
       super unless hash.key?(key)
+
       value = hash.fetch(key, nil)
-      # sanitize output
-      if DATE_ATTRIBUTES.include?(key)
+      if TIME_ATTRIBUTES.include?(key)
         Time.at(value)
+      elsif DATE_ATTRIBUTES.include?(key)
+        Date.parse(value)
       else
         value
       end
@@ -38,6 +44,10 @@ module Plex
 
     private
 
+    def tag_values(key)
+      entries = hash.fetch(key.capitalize,[])
+      entries.map {|entry| entry['tag'] }
+    end
 
     def convert_to_camel(arg)
       list = arg.split("_")

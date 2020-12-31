@@ -18,52 +18,29 @@ module Plex
   # "videoProfile"=>"high",
   # "Part" => []
 
-  class Media
-    include Plex::Base
-
-    MAP = {
-      id: 'id',
-      duration: 'duration',
-      width: 'width', 
-      height: 'height', 
-      resolution: 'videoResolution', 
-      audio_channels: 'audioChannels', 
-      audio_codec: 'audioCodec', 
-      video_codec: 'videoCodec'
-    }
-
-    attr_reader :parts, :part, :parent
-
-    def initialize(hash, parent)
-      init_attributes(hash)
-      @parts ||= load_parts(hash.fetch('Part', []))
-      @part    = @parts.first
-      @hash    = hash.except("Part")
-      @parent  = parent
-    end
-
-    def has_file?(file, full_path = false)
-      parts.any? {|part| part.has_file?(file, full_path) }
-    end
+  class Media < Plex::Base
 
     def files
-      parts.map {|p| p.file }
+      parts.map(&:file).flatten
     end
 
-    def to_hash
-      attributes.merge(parts: parts.map(&:to_hash))
+    def has_file?(filename, full_path: false)
+      parts.any? {|part| part.has_file?(filename, full_path: full_path) }
+    end
+
+    def parts
+      @parts ||= begin
+        hash.fetch("Part",[]).map do |entry|
+          Plex::Part.new(entry)
+        end
+      end
     end
 
     def inspect
-      "#<Plex::Media:#{object_id} id:#{id}>"
+      h = @hash.dup
+      h.delete("Part")
+      h.merge("Part" => parts)
     end
 
-
-    private
-
-    def load_parts(parts)
-      parts.map {|p| Plex::Part.new(p) }
-    end
   end
-
 end

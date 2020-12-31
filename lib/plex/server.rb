@@ -4,6 +4,8 @@ module Plex
     DEFAULT_HOST = '127.0.0.1'
     DEFAULT_PORT = 32400
 
+    VALID_PARAMS = %w| type year decade sort|
+
     attr_accessor :host, :port, :token
 
     def initialize(options = {})
@@ -33,22 +35,42 @@ module Plex
 
 
     def query(path, options: {})
-      # build path
-      url = path
-      # build options
-      params = {}
+      params = pagination_params(options)
+      params.merge!(parse_query_params(options))
       # get response
       opts = {}
       # parse response
-      response = conn.get(url) do |req|
-
+      response = conn.get(path) do |req|
+        req.params = params
       end
       JSON.parse(response.body).fetch("MediaContainer", nil)
+    end
+
+    def data_query(path, options: {})
+      response = query(path, options)
+      response.fetch("Metadata", [])
     end
 
 
     private
 
+
+    def pagination_params(options)
+      offset       = options.fetch(:page, 1).to_i - 1
+      per_page     = options.fetch(:per_page, nil)
+      return {} if per_page.nil?
+        
+      {
+        "X-Plex-Container-Start" => offset * per_page,
+        "X-Plex-Container-Size"  => per_page
+      }
+    end
+
+    def parse_query_params(options)
+      options = options.transform_keys(&:to_s)
+      params = options.slice(*VALID_PARAMS)
+      params
+    end
 
 
     def conn

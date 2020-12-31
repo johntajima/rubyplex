@@ -9,10 +9,9 @@ require 'plex/library'
 require 'plex/movie'
 # require 'plex/show'
 # require 'plex/episode'
-# require 'plex/media'
-# require 'plex/part'
-
-# require 'plex/errors'
+require 'plex/media'
+require 'plex/part'
+require 'plex/stream'
 
 module Plex
   DFLT_CONFIG_FILE = File.expand_path("../.rubyplex.yml")
