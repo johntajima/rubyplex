@@ -25,7 +25,7 @@ module Plex
       if id.is_a?(String)
         libraries.detect {|library| library.title == id }
       else
-        libraries.detect {|library| library.id == id.to_i }
+        libraries.detect {|library| library.key.to_i == id.to_i }
       end
     end
 
@@ -33,17 +33,11 @@ module Plex
       libraries.detect {|library| library.has_path?(path) }
     end
 
-
     def query(path, options: {})
       params = pagination_params(options)
       params.merge!(parse_query_params(options))
-      # get response
-      opts = {}
-      # parse response
-      response = conn.get(path) do |req|
-        req.params = params
-      end
-      JSON.parse(response.body).fetch("MediaContainer", nil)
+      response = request(query_path(path), params)
+      JSON.parse(response.body).fetch("MediaContainer", {})
     end
 
     def data_query(path, options: {})
@@ -51,9 +45,25 @@ module Plex
       response.fetch("Metadata", [])
     end
 
+    def query_path(path)
+      url = host.start_with?("http") ? host.to_s : "http://#{host}"
+      File.join("#{url}:#{port}", path)
+    end
+
 
     private
 
+
+    def request(url, params)
+      response = Faraday.get(url, params, req_headers)
+    end
+
+    def req_headers 
+      {
+        "X-Plex-Token" => token,
+        "Accept"  => "application/json"
+      }
+    end
 
     def pagination_params(options)
       offset       = options.fetch(:page, 1).to_i - 1
@@ -70,23 +80,6 @@ module Plex
       options = options.transform_keys(&:to_s)
       params = options.slice(*VALID_PARAMS)
       params
-    end
-
-
-    def conn
-      Faraday.new(
-        url: base_url,
-        params: {},
-        headers: {
-          "X-Plex-Token" => token,
-          "Accept"  => "application/json"
-        }
-      )
-    end
-
-    def base_url
-      url = host.start_with?("http") ? host.to_s : "http://#{host}"
-      "#{url}:#{port}"
     end
 
   end

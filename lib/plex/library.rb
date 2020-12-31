@@ -33,6 +33,14 @@ module Plex
       end
     end
 
+    def has_path?(path)
+      path = File.join(path, "foo.bar")
+      while path = File.dirname(path) do
+        return false if (path == '.') || (path == '/')
+        return true  if locations.include?(path)
+      end
+    end
+
     def total_count
       @total_count ||= begin
         response = server.query(query_path('all'), options: {page: 1, per_page: 0})
@@ -40,20 +48,20 @@ module Plex
       end
     end
 
-    def all(options = {})
-      videos
+    def all(options: {})
+      videos(options: options)
     end
 
-    def unwatched(options = {})
-      get_entries('unwatched', options)
+    def unwatched(options: {})
+      get_entries('unwatched', options: options)
     end
 
-    def newest(options = {})
-      get_entries('newest', options)
+    def newest(options: {})
+      get_entries('newest', options: options)
     end
 
-    def videos(options = {})
-      @videos ||= get_entries('all')
+    def videos(options: {})
+      @videos ||= get_entries('all', options: options)
     end
 
     def find_by_filename(filename, full_path: false)
@@ -86,7 +94,7 @@ module Plex
 
 
     def get_entries(path, options = {})
-      entries = server.data_query(query_path(path))
+      entries = server.data_query(query_path(path), options: options)
       entries.map do |entry| 
         movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
       end

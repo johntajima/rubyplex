@@ -22,4 +22,10 @@ module Plex
   
   DEFAULT_CONFIG = config.fetch("RUBYPLEX", {}).transform_keys(&:to_sym)
 
+  extend self
+
+  def server(options = {})
+    Plex::Server.new(options)
+  end
+
 end
