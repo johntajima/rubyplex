@@ -38,25 +38,25 @@ class MovieTest < Minitest::Test
   end
 
 
-  # media_by_filename
+  # find_by_filename
 
-  def test_media_by_filename_returns_media_that_has_file
+  def test_find_by_filename_returns_media_that_has_file
     @movie = @library.all.first
-    media = @movie.media_by_filename("2 Guns (2013) [1080p] [AAC 2ch].mp4")
+    media = @movie.find_by_filename("2 Guns (2013) [1080p] [AAC 2ch].mp4")
     assert media.is_a?(Plex::Media)
   end
 
-  def test_media_by_filename_returns_nil_if_path_doesnt_match_and_full_path_required
+  def test_find_by_filename_returns_nil_if_path_doesnt_match_and_full_path_required
     @movie = @library.all.first
 
-    media = @movie.media_by_filename("2 Guns (2013) [1080p] [AAC 2ch].mp4", full_path: true)
+    media = @movie.find_by_filename("2 Guns (2013) [1080p] [AAC 2ch].mp4", full_path: true)
     assert_nil media
   end
 
-  def test_media_by_filename_returns_nil_if_file_doesnt_exist
+  def test_find_by_filename_returns_nil_if_file_doesnt_exist
     @movie = @library.all.first
 
-    media = @movie.media_by_filename("Some bad movie [AAC 2ch].mp4")
+    media = @movie.find_by_filename("Some bad movie [AAC 2ch].mp4")
     assert_nil media
   end
 

@@ -73,8 +73,8 @@ module Plex
       @medias ||= hash.fetch("Media", []).map {|entry| Plex::Media.new(entry) }
     end
 
-    def has_file?(filename, full_path: false)
-      medias.any? {|media| media.has_file?(filename, full_path: full_path)}
+    def media_by_filename(filename, full_path: false)
+      medias.detect {|media| media.has_file?(filename, full_path: full_path)}
     end
 
     def season

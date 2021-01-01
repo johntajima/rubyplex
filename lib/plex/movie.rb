@@ -80,7 +80,7 @@ module Plex
       end
     end
 
-    def media_by_filename(filename, full_path: false)
+    def find_by_filename(filename, full_path: false)
       medias.detect {|m| m.has_file?(filename, full_path: full_path)}
     end
 

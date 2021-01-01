@@ -68,13 +68,8 @@ module Plex
       "#<Plex::Show id:#{rating_key} '#{title}' (#{year}) #{seasons_count}|#{episodes_count}>"
     end
 
-    def has_file?(filename, full_path: false)
-      episodes.any? {|e| e.has_file?(filename, full_path: full_path) }
-    end
-
-
-    def media_by_filename(filename, full_path: false)
-      episodes.detect {|e| e.has_file?(filename, full_path: full_path)}
+    def find_by_filename(filename, full_path: false)
+      episodes.detect {|e| e.media_by_filename(filename, full_path: full_path) }
     end
 
     def files

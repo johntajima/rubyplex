@@ -69,7 +69,7 @@ module Plex
     end
 
     def find_by_filename(filename, full_path: false)
-      all.detect {|video| video.media_by_filename(filename, full_path: full_path)}
+      all.detect {|video| video.find_by_filename(filename, full_path: full_path)}
     end
 
     def find_by_title(title)
