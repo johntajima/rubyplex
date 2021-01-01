@@ -41,7 +41,7 @@ module Plex
     end
 
     def data_query(path, options: {})
-      response = query(path, options)
+      response = query(path, options: options)
       response.fetch("Metadata", [])
     end
 
@@ -55,7 +55,7 @@ module Plex
 
 
     def request(url, params)
-      response = Faraday.get(url, params, req_headers)
+      Faraday.get(url, params, req_headers)
     end
 
     def req_headers 

@@ -96,10 +96,16 @@ module Plex
     private
 
 
-    def get_entries(path, options = {})
+    def get_entries(path, options: {})
+      include_details = options.delete(:include_details)
       entries = server.data_query(query_path(path), options: options)
       entries.map do |entry| 
-        movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
+        if movie_library?
+          entry = server.data_query(entry['key']).first if include_details
+          Plex::Movie.new(entry, server: server)
+        else
+          Plex::Show.new(entry, server: server)
+        end
       end
     end
 
