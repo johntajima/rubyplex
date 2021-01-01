@@ -62,6 +62,11 @@ module Plex
 
   class Movie < Plex::Base
 
+    def load_details!
+      @hash = server.data_query(key).first
+      @medias = nil
+    end
+
     def id
       rating_key
     end

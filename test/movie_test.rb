@@ -10,6 +10,17 @@ class MovieTest < Minitest::Test
   end
 
 
+  # load_details!
+
+  def test_load_details_loads_detail_metadata
+    stub_request(:get, @server.query_path("library/metadata/17911")).to_return(body: load_response(:movie1))
+    @movie = @library.all.first
+    @movie.load_details!
+
+  end
+
+
+
   # new
 
   def test_new_movie
