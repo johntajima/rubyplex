@@ -48,7 +48,7 @@ module Plex
     def episodes
       @episodes ||= begin
         list = server.data_query(episodes_path)
-        list.map {|entry| Plex::Episode.new(entry)}
+        list.map {|entry| Plex::Episode.new(entry, server: server)}
       end
     end
 

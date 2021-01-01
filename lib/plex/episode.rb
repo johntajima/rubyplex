@@ -61,6 +61,12 @@ module Plex
 
   class Episode < Plex::Base
 
+
+    def load_details!
+      @hash = server.data_query(key).first
+      @medias = nil
+    end
+
     def show_title
       grandparent_title
     end
@@ -96,6 +102,7 @@ module Plex
     def files
       medias.map(&:files).flatten
     end
+
   end
 
 end
