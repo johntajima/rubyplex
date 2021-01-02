@@ -26,15 +26,36 @@ Require the gem:
 require 'rubyplex'
 ```
 
-Add configuration:
+Add a YAML config file. Take the rubyplex_config.yml and copy it to:
 
 ```
-  Plex.configure do |config|
-    config[:host]  = "<ip address>"
-    config[:port]  = # port number or 32400 by default
-    config[:token] = "your-api-token"
-  end
+  ~/.rubyplex.yml
 ```
+
+And fill out the host, port and token details.
+
+OR, you can pass in config details when you initialize a new plex server:
+
+```
+  config = {
+    host: '192.168.2.5',
+    port: 32400,
+    token: 'your-token-here'
+  }
+  server = Plex.server(config)
+```
+
+OR, just set the config params on your new server object
+
+```
+  server = Plex.server
+  server.host = '192.168.2.5'
+  server.token = 'your-token'
+```
+
+Use ```https://x.x.x.x``` to specify https, otherwise defaults to http when settting just an IP address.
+
+
 
 Then use as needed:
 
@@ -48,23 +69,25 @@ Then use as needed:
   movies = movie_library.all  # array of all movies in the library
 ```
 
-You can options when filtering
+### Library
 
 ```
-library.all(sort: 'year')                     # sort results by release year
-library.all(sort: 'year', direction: 'dsec')  # sort results by release year descending
-library.all(page: 5, per_page: 100)           # lists page 5 (results 500-599)
-```
+library = server.libraries.all.first
 
-Other filtering options standard to Plex exists
+Listing entries
 
-```
-library.by_year(1999)
-library.by_decade(2000)
-library.unwatched
-library.newest
-library.recently_added
-library.recently_viewed
+movies = library.all                            # list of all movies
+movies = library.unwatched                      # list of unwatched movies
+movies = library.newest                         # list of newest movies
+movies = library.recently_added                 # list of recently added movies
+
+  options:
+    page        # page of results to return
+    per_page    # number of entries per page
+    sort        # coming soon
+    direction   # coming soon
+
+  eg: library.all(options: {page: 1, per_page: 10})
 ```
 
 A special filter method exists:
@@ -73,97 +96,120 @@ A special filter method exists:
 library.updated_since(1.day.ago)    # lists movies that were updatedAt > time
 ```
 
-You can search a library for a movie or show(episode) by the filename it is stored as.
+#### Searching
+
+Find movie by filename
+``` 
+  movie = library.find_by_filename('name-of-file.mp4')
+  movie = library.find_by_filename('movie-name.mp4', full_path: true)
+```
+If ```full_path``` is true, then filename must include the full root path.
+If ```full_path``` is false (by default), you can just use the filename
+
+Find movie by title
 
 ```
-library.find_by_filename(full_or_partial_filename)  # => returns media model associated 
-
-eg: library.find_by_filename("Star Wars (1977).mp4")
+movie = library.find_by_title('Star Wars')
 ```
-
-The returning Media model as a .parent method which will return the Movie or Episode (if a show)
-associated to the file. Episode has a .show method to return the actual Show model.
 
 ### Movie
 
-A movie library will return array of Movie models. A movie model has a number of attributes:
+Movie is a plex movie.
 
 ```
-.title        title of the movie
-.year         year of movie release
-.rating       imdb rating
-.id           the plex Metadata id (key)
-.type         movie / show 
-.duration     duration in seconds
-.release_date Time object
-.added_at     DateTime it was added to Plex db
-.updated_at   DateTime it was last updated
-.genres       array of genre tag words
-.directors    array of directors
-.roles        array of actors
-.countries    array of country names
-.imdb         the imdb id if plex agent was imdb
-.tmdb         the tmdb id if agent was tmdb
-.medias       An array of media models associated to Movie
+.to_hash              # => returns original plex hash of attributes
+.to_json              # => json of original hash
+.medias               # => array of Media objects
+.<param>              # => attribute value. 
+    If attribute name is lowercase, param is lowercase
+      eg: 'title' => movie.title
+    If attribute is camelCase, param is underscore  
+      eg: 'updatedAt' => movie.updated_at
+    If attribute is Capitalized (usually an association), param is lowercase 
+      eg: 'Genre' => movie.genre # => ['action', 'adventure']
+
+.load_details!      # reload Movie model with extended params (including Stream details)
+.find_by_filename(filename)   # returns Media model which has the file 
+.imdb               # IMDB number (if proper agent is used)
+.id                 # same as "ratingKey" attribute
+.release_date       # same as "originallyAvailableAt"
+.files              # array of all files associated with movie
+```
+
+### Show & Episode model
+
+Show is a plex TV show. Show is made up of an array of episodes. An Episode has many Medias.
+
+```
+show = library.all.first
+show.episodes  # => array of episode models
+episode.medias # => array of medias
+
+.to_hash              # => returns original plex hash of attributes
+.to_json              # => json of original hash
+.medias               # => array of Media objects
+.<param>              # => attribute value. 
+    If attribute name is lowercase, param is lowercase
+      eg: 'title' => movie.title
+    If attribute is camelCase, param is underscore  
+      eg: 'updatedAt' => movie.updated_at
+    If attribute is Capitalized (usually an association), param is lowercase 
+      eg: 'Genre' => movie.genre # => ['action', 'adventure']
+
+.seasons_count        # total # of seasons
+.episodes_count       # total # of episodes
+.season(X)            # returns array of all episodes for given season
+.episode(season, x)   # returns specific episode # of season
+.episodes             # array of all episodes
+.tvdb                 # TVDB id (if exists)
+.files                # array of all files associated with TV Show
+.find_by_filename(filename)     # returns the episode that has the given file
 ```
 
 ```
-.to_hash => returns a hash of all attributes, plus a :medias => [all medias Models]
+episode = show.episodes.first
+.to_hash              # => returns original plex hash of attributes
+.to_json              # => json of original hash
+.medias               # => array of Media objects
+.<param>              # => attribute value. 
+    If attribute name is lowercase, param is lowercase
+      eg: 'title' => movie.title
+    If attribute is camelCase, param is underscore  
+      eg: 'updatedAt' => movie.updated_at
+    If attribute is Capitalized (usually an association), param is lowercase 
+      eg: 'Genre' => movie.genre # => ['action', 'adventure']
+
+.season               # which season # of the episode
+.episode              # which episode # this is
+.load_details!        # load all episode details, including stream info
+.medias               # array of Media objects
+.files                # array of filenames
+.media_by_filename(filename)    # finds media by filename
+.label                # returns "S01E01" for given season/episode
 ```
 
-```
-.by_file() => returns media associated to Movie if the filename matches
-```
+### Media
 
-All models (Movie, Show, Episode, Media) include a .hash method which returns the original
-hash from Plex, where keys are in string format, in case you need to access the original
-Plex hash attributes.
-
-
-
-### Show
-
-A Show is similiar to a movie, but it has many episodes. The Episode model contains the array
-of Media models. Use the .attributes method to see the various attributes.
-
-
-Other methods:
+Media has many parts. 
 
 ```
-.episodes                returns list of all Episodes
-.episode(season, index)  returns a given episode
-.season(index)           returns array of all episodes for the given season
-.by_file(filename)       returns Media model associated to episode with the given file
-.attributes              hash of all attributes
-.to_hash                 returns hash of all attributes, including :medias array
+media = movie.medias.first
+
+.to_hash              # => returns original plex hash of attributes
+.to_json              # => json of original hash
+.<param>              # => attribute value. 
+    If attribute name is lowercase, param is lowercase
+      eg: 'title' => movie.title
+    If attribute is camelCase, param is underscore  
+      eg: 'updatedAt' => movie.updated_at
+    If attribute is Capitalized (usually an association), param is lowercase 
+      eg: 'Genre' => movie.genre # => ['action', 'adventure']
+
+.parts                # array of Part models
+.has_file?(filename)  # returns true if file w/ filename exists
 ```
 
-### Episode
 
-Episode is associated to a given show. There is one Episode model for every episode of every
-season for a given show.
-
-Episode has an index number and a season number.
-
-Episode has a medias array of all files associated to the given episode.
-
-
-```
-.attributes              hash of all attributes
-.to_hash                 returns hash of all attributes, including :medias array
-.by_file(filename)       returns Media model associated to episode with the given file
-.show                    returns Show model associated to Episode
-```
-
-### Medias
-
-A media model is associated to Movie or TV Episode and associates the files associated
-to the given show/movie.
-
-```
-.parent             returns the Movie or Episode (for show) model 
-.has_file?(file)    returns true if file exists for the given media
-```
 
 
 ## License
