@@ -19,6 +19,7 @@ module Plex
 
   config =   YAML.load(File.read(HOME_CONFIG_FILE)) if File.exists?(HOME_CONFIG_FILE) 
   config ||= YAML.load(File.read(DFLT_CONFIG_FILE)) if File.exists?(DFLT_CONFIG_FILE)
+  config ||= {}
   
   DEFAULT_CONFIG = config.fetch("RUBYPLEX", {}).transform_keys(&:to_sym)
 

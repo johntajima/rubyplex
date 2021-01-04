@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubyplex (2.0.0)
+    rubyplex (2.0.1)
       faraday
       json
 
