@@ -31,6 +31,34 @@ EOF
     assert_equal 'my-token', @config[:token]
   end
 
+  def test_config_file_takes_default_value_when_params_is_nil
+    yaml = <<-EOF
+PLEX_HOST:
+PLEX_PORT:
+PLEX_TOKEN: 'my-token'
+EOF
+    File.expects(:exists?).returns(true)
+    File.expects(:read).returns(yaml)
+
+    @config = Plex.config
+    assert_equal Plex::DFLT_HOST, @config[:host]
+    assert_equal Plex::DFLT_PORT, @config[:port]
+  end
+
+  def test_config_file_uses_default_when_param_is_missing
+    yaml = <<-EOF
+PLEX_HOST:
+PLEX_TOKEN: 'my-token'
+EOF
+
+    File.expects(:exists?).returns(true)
+    File.expects(:read).returns(yaml)
+
+    @config = Plex.config
+    assert_equal Plex::DFLT_HOST, @config[:host]
+    assert_equal Plex::DFLT_PORT, @config[:port]
+  end
+
   def test_set_plex_config
     config = {
       host: '2.2.2.2',

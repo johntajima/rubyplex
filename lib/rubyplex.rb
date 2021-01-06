@@ -25,9 +25,9 @@ module Plex
   def dflt_config
     params = File.exists?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
     {
-      host: params.fetch('PLEX_HOST', DFLT_HOST),
-      port: params.fetch('PLEX_PORT', DFLT_PORT),
-      token: params.fetch('PLEX_TOKEN', DFLT_TOKEN)
+      host: params.fetch('PLEX_HOST', nil) || DFLT_HOST,
+      port: params.fetch('PLEX_PORT', nil) || DFLT_PORT,
+      token: params.fetch('PLEX_TOKEN', nil) || DFLT_TOKEN
     }
   end
 
