@@ -2,6 +2,10 @@
 
 Plex is a super basic gem for accessing the Plex API on your local Plex Media Server. 
 
+*** V2 is a overall rewrite, although the basic methods and attributes are mostly the same, underneath
+was rewritten. Please note where many of the attributes and methods have changed. ***
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -60,7 +64,7 @@ Use ```https://x.x.x.x``` to specify https, otherwise defaults to http when sett
 Then use as needed:
 
 ```
-  server = Plex.server
+  server = Plex.server(config)
 
   libraries = server.libraries
 
@@ -218,4 +222,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## TODO
 
-* Need some tests
+* Add back some of the search methods from the original version
+

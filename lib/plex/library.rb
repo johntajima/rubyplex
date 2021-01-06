@@ -25,6 +25,10 @@ module Plex
 
   class Library < Plex::Base
 
+    def id
+      key.to_i
+    end
+
     def locations
       @locations ||= begin
         hash.fetch("Location", []).map do |entry|

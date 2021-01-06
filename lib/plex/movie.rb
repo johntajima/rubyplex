@@ -68,7 +68,7 @@ module Plex
     end
 
     def id
-      rating_key
+      rating_key.to_i
     end
 
     def imdb
