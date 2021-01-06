@@ -1,18 +1,14 @@
 module Plex
   class Server
 
-    DEFAULT_HOST = '127.0.0.1'
-    DEFAULT_PORT = 32400
-
     VALID_PARAMS = %w| type year decade sort|
 
     attr_accessor :host, :port, :token
 
-    def initialize(options = {})
-      params = Plex::DEFAULT_CONFIG.merge(options)
-      @host  = params.fetch(:host, DEFAULT_HOST)
-      @port  = params.fetch(:port, DEFAULT_PORT)
-      @token = params.fetch(:token, nil)
+    def initialize(params = {})
+      @host  = params.fetch(:host, Plex::DFLT_HOST)
+      @port  = params.fetch(:port, Plex::DFLT_PORT)
+      @token = params.fetch(:token, Plex::DFLT_TOKEN)
     end
 
     def libraries

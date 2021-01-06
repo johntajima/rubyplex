@@ -24,38 +24,43 @@ Or install it yourself as:
 
 ## Usage
 
-Require the gem:
-
 ```
 require 'rubyplex'
-```
 
-Add a YAML config file. Take the rubyplex_config.yml and copy it to:
+Plex.config = {
+  host: '192.168.2.5',
+  port: 32400,
+  token: 'some-plex-token'
+}
 
-```
-  ~/.rubyplex.yml
-```
+server = Plex.server
 
-And fill out the host, port and token details.
+  OR
 
-OR, you can pass in config details when you initialize a new plex server:
-
-```
-  config = {
-    host: '192.168.2.5',
-    port: 32400,
-    token: 'your-token-here'
-  }
-  server = Plex.server(config)
-```
-
-OR, just set the config params on your new server object
+config = {
+  host: '192.158.2.5',
+  port: 32400,
+  token: 'some-plex-token'
+}
+server = Plex::Server.new(config)
 
 ```
-  server = Plex.server
-  server.host = '192.168.2.5'
-  server.token = 'your-token'
+
+Or set a ~/.rubyplex.yml file 
+
 ```
+PLEX_HOST: '192.168.2.5'
+PLEX_PORT: 32400
+PLEX_TOKEN: 'some-valid-token'
+```
+
+``` 
+require 'rubyplex'
+
+server = Plex.server  # uses config values from ~/.rubyplex.yml
+```
+
+
 
 Use ```https://x.x.x.x``` to specify https, otherwise defaults to http when settting just an IP address.
 

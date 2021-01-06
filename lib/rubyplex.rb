@@ -14,19 +14,25 @@ require 'plex/stream'
 
 module Plex
 
-  DFLT_CONFIG_FILE = File.expand_path("../rubyplex.yml")
-  HOME_CONFIG_FILE = File.expand_path("~/.rubyplex.yml")
-
-  config =   YAML.load(File.read(HOME_CONFIG_FILE)) if File.exists?(HOME_CONFIG_FILE) 
-  config ||= YAML.load(File.read(DFLT_CONFIG_FILE)) if File.exists?(DFLT_CONFIG_FILE)
-  config ||= {}
+  DFLT_HOST   = '127.0.0.1'
+  DFLT_PORT   = 32400
+  DFLT_TOKEN  = ''
+  CONFIG_FILE = File.expand_path('~/.rubyplex.yml')
+  CONFIG = File.exists?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
   
-  DEFAULT_CONFIG = config.fetch("RUBYPLEX", {}).transform_keys(&:to_sym)
-
   extend self
 
-  def server(options = {})
-    Plex::Server.new(options)
+  def config
+    {
+      host: CONFIG.fetch('PLEX_HOST', DFLT_HOST),
+      port: CONFIG.fetch('PLEX_PORT', DFLT_PORT),
+      token: CONFIG.fetch('PLEX_TOKEN', DFLT_TOKEN)
+    }
   end
+
+  def server
+    Plex::Server.new(config)
+  end
+
 
 end
