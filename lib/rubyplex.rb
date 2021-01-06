@@ -18,19 +18,24 @@ module Plex
   DFLT_PORT   = 32400
   DFLT_TOKEN  = ''
   CONFIG_FILE = File.expand_path('~/.rubyplex.yml')
-  CONFIG = File.exists?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
   
   extend self
 
-  def config
+
+  def dflt_config
+    params = File.exists?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
     {
-      host: CONFIG.fetch('PLEX_HOST', DFLT_HOST),
-      port: CONFIG.fetch('PLEX_PORT', DFLT_PORT),
-      token: CONFIG.fetch('PLEX_TOKEN', DFLT_TOKEN)
+      host: params.fetch('PLEX_HOST', DFLT_HOST),
+      port: params.fetch('PLEX_PORT', DFLT_PORT),
+      token: params.fetch('PLEX_TOKEN', DFLT_TOKEN)
     }
   end
 
-  def server
+  def config
+    dflt_config
+  end
+
+  def server(config = dflt_config)
     Plex::Server.new(config)
   end
 

@@ -6,13 +6,42 @@ class PlexTest < Minitest::Test
     refute_nil ::Plex::VERSION
   end
 
-  def test_plex_configure_sets_config
-    config = {
-      port: 1000, host: '192.168.1.1', token: 'token'
-    }
-    @server = Plex::Server.new(config)
-    assert_equal config[:port], @server.port
-    assert_equal config[:host], @server.host
-    assert_equal config[:token], @server.token
+  def test_default_config_values
+    File.expects(:exists?).returns(false)
+
+    @config = Plex.config
+    assert_equal Plex::DFLT_HOST, @config[:host]
+    assert_equal Plex::DFLT_PORT, @config[:port]
+    assert_equal Plex::DFLT_TOKEN, @config[:token]
   end
+
+  def test_config_file
+    yaml = <<-EOF
+PLEX_HOST: '1.1.1.1'
+PLEX_PORT: 1234
+PLEX_TOKEN: 'my-token'
+EOF
+
+    File.expects(:exists?).returns(true)
+    File.expects(:read).returns(yaml)
+
+    @config = Plex.config
+    assert_equal '1.1.1.1', @config[:host]
+    assert_equal 1234, @config[:port]
+    assert_equal 'my-token', @config[:token]
+  end
+
+  def test_set_plex_config
+    config = {
+      host: '2.2.2.2',
+      port: 123,
+      token: 'test-token'
+    }
+
+    @server = Plex.server(config)
+    assert_equal '2.2.2.2', @server.host
+    assert_equal 123, @server.port
+    assert_equal 'test-token', @server.token
+  end
+
 end

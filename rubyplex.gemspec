@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake",         "~> 10.0"
   spec.add_development_dependency "minitest",     "~> 5.0"
   spec.add_development_dependency "webmock"
+  spec.add_development_dependency "mocha"
   
   spec.add_dependency "faraday"
   #spec.add_dependency 'activesupport'

@@ -27,22 +27,13 @@ Or install it yourself as:
 ```
 require 'rubyplex'
 
-Plex.config = {
+config = {
   host: '192.168.2.5',
   port: 32400,
   token: 'some-plex-token'
 }
 
-server = Plex.server
-
-  OR
-
-config = {
-  host: '192.158.2.5',
-  port: 32400,
-  token: 'some-plex-token'
-}
-server = Plex::Server.new(config)
+server = Plex.server(config) # OR Plex::Server.new(config)
 
 ```
 
@@ -59,8 +50,6 @@ require 'rubyplex'
 
 server = Plex.server  # uses config values from ~/.rubyplex.yml
 ```
-
-
 
 Use ```https://x.x.x.x``` to specify https, otherwise defaults to http when settting just an IP address.
 

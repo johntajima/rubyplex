@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubyplex (2.0.2)
+    rubyplex (2.0.3)
       faraday
       json
 
@@ -20,6 +20,7 @@ GEM
     hashdiff (1.0.0)
     json (2.5.1)
     minitest (5.11.3)
+    mocha (1.12.0)
     multipart-post (2.1.1)
     public_suffix (4.0.2)
     rake (10.5.0)
@@ -36,6 +37,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   minitest (~> 5.0)
+  mocha
   rake (~> 10.0)
   rubyplex!
   webmock

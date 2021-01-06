@@ -89,10 +89,10 @@ class MovieTest < Minitest::Test
 
   # id
 
-  def test_id_is_same_as_rating_key
+  def test_id
     @movie = @library.all.first
-    assert_equal @movie.id, @movie.rating_key
-    assert @movie.id.is_a?(String)
+    assert @movie.id.is_a?(Integer)
+    assert_equal @movie.id, @movie.rating_key.to_i
   end
 
   # genre, director, role, country
