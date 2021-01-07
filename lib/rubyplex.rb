@@ -23,7 +23,7 @@ module Plex
 
 
   def dflt_config
-    params = File.exists?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
+    params = File.exist?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
     {
       host: params.fetch('PLEX_HOST', nil) || DFLT_HOST,
       port: params.fetch('PLEX_PORT', nil) || DFLT_PORT,
