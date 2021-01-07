@@ -101,7 +101,6 @@ module Plex
 
 
     def get_entries(path, options: {})
-      include_details = options.delete(:include_details)
       entries = server.data_query(query_path(path), options: options)
       entries.map do |entry| 
         movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
