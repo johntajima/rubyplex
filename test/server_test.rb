@@ -76,6 +76,16 @@ class ServerTest < Minitest::Test
     assert_nil library
   end
 
+  def test_library_by_path_returns_library_if_locations_include_path_with_different_root
+    path = "/Volumes/Media/Movies"
+    library = @server.library_by_path(path)
+    assert_equal "Movies", library.title
+
+    path = "/volume1/data/Media/Movies"
+    library = @server.library_by_path(path)
+    assert_equal "Movies", library.title
+  end
+
 
   # query()
 

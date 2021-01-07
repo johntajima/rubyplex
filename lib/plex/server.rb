@@ -26,7 +26,21 @@ module Plex
     end
 
     def library_by_path(path)
-      libraries.detect {|library| library.has_path?(path) }
+      # detect full path
+      path = File.dirname(File.join(path, 'foo.bar'))
+      if found = libraries.detect {|l| l.locations.include?(path) }
+        return found
+      end
+ 
+      # detect subpaths
+      path_chunks = path.split("/").reject(&:empty?)
+      (path_chunks.length-1).downto(1).each do |i|
+        subpath = path_chunks[i]
+        if found = libraries.detect {|l| l.locations.any? {|d| d.end_with?(subpath) } }
+          return found
+        end
+      end
+      nil
     end
 
     def query(path, options: {})
