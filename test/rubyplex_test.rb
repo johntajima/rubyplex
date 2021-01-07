@@ -7,7 +7,7 @@ class PlexTest < Minitest::Test
   end
 
   def test_default_config_values
-    File.expects(:exists?).returns(false)
+    File.expects(:exist?).returns(false)
 
     @config = Plex.config
     assert_equal Plex::DFLT_HOST, @config[:host]
@@ -22,7 +22,7 @@ PLEX_PORT: 1234
 PLEX_TOKEN: 'my-token'
 EOF
 
-    File.expects(:exists?).returns(true)
+    File.expects(:exist?).returns(true)
     File.expects(:read).returns(yaml)
 
     @config = Plex.config
@@ -37,7 +37,7 @@ PLEX_HOST:
 PLEX_PORT:
 PLEX_TOKEN: 'my-token'
 EOF
-    File.expects(:exists?).returns(true)
+    File.expects(:exist?).returns(true)
     File.expects(:read).returns(yaml)
 
     @config = Plex.config
@@ -51,7 +51,7 @@ PLEX_HOST:
 PLEX_TOKEN: 'my-token'
 EOF
 
-    File.expects(:exists?).returns(true)
+    File.expects(:exist?).returns(true)
     File.expects(:read).returns(yaml)
 
     @config = Plex.config
