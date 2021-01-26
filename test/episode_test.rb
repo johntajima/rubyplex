@@ -13,36 +13,43 @@ class EpisodeTest < Minitest::Test
   end
 
 
-  def test_episode_attributes
-    @episode = @show.episodes.first
-    assert_equal 10403, @episode.id
-    assert_equal "/library/metadata/10401", @episode.show_key
-    assert_equal "Band of Brothers", @episode.show_title
-    assert_equal 1, @episode.season
-    assert_equal 1, @episode.episode
-    assert_equal "Season 1", @episode.season_title    
+  def test_show_title
+    @ep = @show.episodes.first
+    assert_equal "Band of Brothers", @ep.show_title
   end
 
 
-  # has_file?
+  # media_by_filename
 
-  def test_by_file_returns_media_if_episode_has_file
+  def test_media_by_filename_returns_media_if_file_exists
     @episode = @show.episodes.first
     file = "/volume1/Media/TV/Band of Brothers/Band of Brothers S01/Band of Brothers S01E01 [1080p].mp4"
     file2 = "Band of Brothers S01E01 [1080p].mp4"
-    assert @episode.by_file(file).is_a?(Plex::Media)
-    assert @episode.by_file(file2).is_a?(Plex::Media)
+    assert @episode.media_by_filename(file).is_a?(Plex::Media)
+    assert @episode.media_by_filename(file2).is_a?(Plex::Media)
   end
 
 
-  # .show
+  # attributes
 
-  def test_show_returns_show_model_for_given_episode
-    stub_request(:get, @server.query_path("/library/metadata/10401")).to_return(body: load_response(:show_1_details))
-    
+  def test_season_returns_episodes_season_number
     @episode = @show.episodes.first
-    @parent = @episode.show
-    assert_equal @show.id, @parent.id
-    assert_equal @show.episodes.count, @parent.episodes.count
+    assert_equal 1, @episode.season
+  end
+
+  def test_season_returns_episodes_season_number
+    @episode = @show.episodes.last
+    assert_equal 10, @episode.episode
+  end
+
+  def test_label_returns_season_and_ep_in_nice_format
+    @episode = @show.episodes.first
+    assert_equal "S01E01", @episode.label     
+  end
+
+  def test_files_returns_array_of_media_filenames
+    @episode = @show.episodes.first
+    files = @episode.files
+    assert_equal 1, files.count
   end
 end

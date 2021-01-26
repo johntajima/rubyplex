@@ -52,43 +52,18 @@ module Plex
   # }
 # ]
 
-  class Part
-    include Plex::Base
+  class Part < Plex::Base
 
-    MAP = {
-      id: 'id',
-      file: 'file',
-      size: 'size',
-      duration: 'duration'
-    }
-
-    attr_reader :streams
-    
-    def initialize(hash)
-      init_attributes(hash)
-      @hash = hash.except("Stream")
-      @streams = load_streams(hash)
-    end
-
-    def has_file?(filename, full_path = false)
+    def has_file?(filename, full_path: false)
       full_path ? file == filename : File.basename(file) == File.basename(filename)
     end
 
-    def to_hash
-      @attributes.merge(streams: streams)
+    def streams
+      hash.fetch("Stream", []).map {|stream| Plex::Stream.new(stream) }
     end
 
     def inspect
-      "#<Plex::Part:#{object_id} id:#{id} #{file}>"
-    end
-
-
-    private
-
-    def load_streams(hash)
-      hash.fetch("Stream", []).map {|stream|
-        stream.fetch('displayTitle',nil)
-      }.compact
+      "#<Plex::Part id:#{id} #{file} duration: #{duration}>"
     end
 
   end

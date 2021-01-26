@@ -16,36 +16,43 @@ class ShowTest < Minitest::Test
 
   def test_new_show
     @show = @library.all.first
-    keys = [:added_at, :countries, :directors, :duration, :genres, :id, :rating, :release_date, :roles, :title, :type, :updated_at, :year]
-    assert_equal 10, @show.total_episodes
-    assert_equal 1, @show.total_seasons
+    assert_equal 10, @show.episodes_count
+    assert_equal 1, @show.seasons_count
     assert_equal "show", @show.type
 
     assert_equal 10, @show.episodes.count
   end
 
 
-  # to_hash
+  # find_by_filename 
 
-  def test_to_hash
+  def test_find_by_file_returns_media_if_found
     @show = @library.all.first
-    assert @show.to_hash.key?(:total_seasons)
-    assert @show.to_hash.key?(:total_episodes)
-    assert @show.to_hash.key?(:episodes)    
+    file = "Band of Brothers S01E01 [1080p].mp4"
+
+    found = @show.find_by_filename(file)
+    assert found.is_a?(Plex::Episode)
+    media = found.media_by_filename(file)
+    assert media.has_file?(file)
+  end
+
+  def test_find_by_filename_returns_nil_if_file_doesnt_exist
+    @show = @library.all.first
+    file = "Bad file Band of Brothers S01E01 [1080p].mp4"
+
+    assert_nil @show.find_by_filename(file)
   end
 
 
-  # by_file 
-
-  def test_by_file_returns_media_if_found
+  def test_seasons_count
     @show = @library.all.first
-    file = "/volume1/Media/TV/Band of Brothers/Band of Brothers S01/Band of Brothers S01E01 [1080p].mp4"
-
-    media = @show.by_file(file)
-    assert_equal file, media.part.file
-    assert media.is_a?(Plex::Media)
+    assert_equal 1, @show.seasons_count
   end
 
+  def test_episodes_count
+    @show = @library.all.first
+    assert_equal 10, @show.episodes_count
+  end
 
   # season()
 
@@ -54,6 +61,7 @@ class ShowTest < Minitest::Test
     @episodes = @show.season(1)
     assert_equal 10, @episodes.count
     assert @episodes.first.is_a?(Plex::Episode)
+    assert @episodes.all? {|e| e.season == 1}
   end
 
   def test_season_returns_empty_if_season_is_invalid
@@ -92,7 +100,4 @@ class ShowTest < Minitest::Test
     assert_nil @show.episode(1,11)
   end
 
-
-  # tvdb
-  
 end

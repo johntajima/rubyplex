@@ -34,75 +34,56 @@ module Plex
 #  ...
 # ]
 
-  class Show
-    include Plex::Base
 
-    MAP = {
-      id: 'ratingKey',
-      title: 'title',
-      year: 'year',
-      type: 'type',
-      rating: 'rating',
-      release_date: 'originallyAvailableAt',
-      total_seasons: 'childCount',
-      total_episodes: 'leafCount',
-      added_at: 'addedAt',
-      updated_at: 'updatedAt',
-      roles: 'Role',
-      genres: 'Genre'
-    }
+  class Show < Plex::Base
 
-    attr_reader :episodes
-
-    def initialize(hash)
-      init_attributes(hash)
-      @episodes = load_episodes
-      @hash     = hash.except('Media')
+    def seasons_count
+      child_count
     end
 
-    def tvdb
-      #{}"guid"=>"com.plexapp.agents.thetvdb://279536?lang=en"
+    def episodes_count
+      leaf_count
+    end
+
+    def episodes
+      @episodes ||= begin
+        list = server.data_query(episodes_path)
+        list.map {|entry| Plex::Episode.new(entry, server: server)}
+      end
+    end
+
+    def season(season)
+      episodes.select {|e| e.season == season}
     end
 
     def episode(season, index)
       episodes.find {|e| e.season == season && e.episode == index }
     end
 
-    def season(season)
-      episodes.select {|e| e.season == season }
-    end
-
-    def by_file(file, full_path = false)
-      episodes.map(&:medias).flatten.find {|m| m.has_file?(file, full_path) }
-    end
-
-    def to_hash
-      attributes.merge(episodes: episodes.map(&:to_hash))
-    end
-
-    def files
-      hash = {}
-      episodes.each {|e| hash[e.label] = e.files }
-      hash
+    def tvdb
+      guid.scan(/thetvdb\:\/\/(\d{6,})/).last.first if guid.match('tvdb')
     end
 
     def inspect
-      "#<Plex::Show:#{object_id} id:#{id} #{title} (#{year})>"
+      "#<Plex::Show id:#{rating_key} '#{title}' (#{year}) #{seasons_count}|#{episodes_count}>"
+    end
+
+    def find_by_filename(filename, full_path: false)
+      episodes.detect {|e| e.media_by_filename(filename, full_path: full_path) }
+    end
+
+    def files
+      episodes.map(&:files).flatten
     end
 
 
     private
 
-    def load_episodes
-      @episodes ||= begin
-        list = server.query(episodes_path).fetch("Metadata")
-        list.map {|entry| Plex::Episode.new(entry) }
-      end
-    end
 
     def episodes_path
-      "/library/metadata/#{id}/allLeaves"
+      "/library/metadata/#{rating_key}/allLeaves"
     end
+
   end
 
 end

@@ -1,54 +1,60 @@
 module Plex
 
-  module Base
+  class Base
 
-    DATE_FIELDS = [ 'originallyAvailableAt' ]
-    TIME_FIELDS = [ 'addedAt', 'updatedAt', 'scannedAt']
+    attr_reader   :hash, :server
 
-    attr_reader :attributes, :hash
+    TIME_ATTRIBUTES = %w|updatedAt createdAt addedAt scannedAt|
+    DATE_ATTRIBUTES = ["originallyAvailableAt"]
+    TAG_ATTRIBUTES  = ["Genre", "Director", "Writer", "Country", "Role"]
+
+    def initialize(hash, server: nil)
+      @hash = hash
+      @server = server
+    end
+
+    def method_missing(arg, *params)
+      key = convert_to_camel(arg.to_s)
+      
+      return tag_values(key) if hash.key?(key.capitalize)
+      super unless hash.key?(key)
+
+      value = hash.fetch(key, nil)
+      if TIME_ATTRIBUTES.include?(key)
+        Time.at(value)
+      elsif DATE_ATTRIBUTES.include?(key)
+        Date.parse(value)
+      else
+        value
+      end
+    end
 
     def keys
-      attributes.keys
+      hash.keys
+    end
+
+    def to_hash
+      hash
+    end
+
+    def to_json
+      hash.to_json
     end
 
 
     private
 
-    def init_attributes(hash)
-      @attributes = self.class::MAP.inject({}) do |h,obj|
-        field = obj.last
-        value = hash[field]
-        if value
-          h[obj.first] = if TIME_FIELDS.include?(field)
-            Time.at(value)
-          elsif DATE_FIELDS.include?(field)
-            value.to_time
-          elsif hash[field].is_a?(Array)
-            if field == 'Location'
-              value.map {|entry| entry.fetch('path',nil)}.compact
-            else
-              value.map {|entry| entry.fetch('tag',nil)}.compact
-            end
-          else
-            value.to_i.to_s == value ? value.to_i : value
-          end
-        end
-        h
-      end
-      add_accessible_methods
+    def tag_values(key)
+      entries = hash.fetch(key.capitalize,[])
+      entries.map {|entry| entry['tag'] }
     end
 
-    def add_accessible_methods
-      @attributes.keys.each do |key|
-        define_singleton_method(key) {
-          @attributes.fetch(key, nil) 
-        }
-      end
-    end
-
-
-    def server
-      @server ||= Plex::Server.new(Plex.config)
+    def convert_to_camel(arg)
+      list = arg.split("_")
+      return arg if list.size == 1
+      first = list.shift
+      rest = list.map(&:capitalize).join
+      "#{first}#{rest}"
     end
 
   end

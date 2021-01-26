@@ -35,30 +35,21 @@ class LibraryTest < Minitest::Test
   def test_new_library_creates_library_model
     @library = Plex::Library.new(@library_params)
     assert @library.is_a?(Plex::Library)
-    assert_equal 8, @library.id
+    assert_equal 8, @library.key.to_i
     assert_equal "4K Movies", @library.title
-    assert_equal 2, @library.directories.count
+    assert_equal 2, @library.locations.count
   end
 
 
   # .total_count
 
   def test_total_returns_total_entries_in_library_for_movies
-    stub_request(:get, @server.query_path("/library/sections/1/all")).to_return(body: load_response(:movie_count))
+    stub_request(:get, @server.query_path("/library/sections/1/all?X-Plex-Container-Size=0&X-Plex-Container-Start=0")).to_return(body: load_response(:movie_count))
 
     @library = Plex.server.library(1)
     assert_equal "Movies", @library.title
     count = @library.total_count
     assert_equal 100, count
-  end
-
-  def test_total_returns_total_entries_in_library_for_shows
-    stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:show_count))
-    
-    @library = Plex.server.library(2)
-    assert_equal "TV Shows", @library.title
-    count = @library.total_count
-    assert_equal 50, count
   end
 
 
@@ -74,24 +65,12 @@ class LibraryTest < Minitest::Test
     assert @movies.first.is_a?(Plex::Movie)
   end
 
-  def test_all_returns_all_shows
-    stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:library_2))
-    stub_request(:get, @server.query_path("/library/metadata/10401/allLeaves")).to_return(body: load_response(:show_1))
-    stub_request(:get, @server.query_path("/library/metadata/10320/allLeaves")).to_return(body: load_response(:show_2))
-    @library = Plex.server.library(2)
-    @results = @library.all
-
-    assert_equal 2, @results.count
-    assert @results.first.is_a?(Plex::Show)
-  end
-
   def test_all_with_pagination
-    stub_request(:get, @server.query_path("/library/sections/1/all"))
-      .with(headers: {'X-Plex-Container-Start' => 10, 'X-Plex-Container-Size' => 10})
+    stub_request(:get, @server.query_path("/library/sections/1/all?X-Plex-Container-Size=10&X-Plex-Container-Start=10"))
       .to_return(body: load_response(:library_1))
       
     @library = Plex.server.library(1)
-    @results = @library.all(page: 2, per_page: 10)
+    @results = @library.all(options: {page: 2, per_page: 10})
   end
 
 
@@ -107,13 +86,14 @@ class LibraryTest < Minitest::Test
 
   # .find_by_filename
 
-  def test_find_by_filename_returns_media_model_for_movie
+  def test_find_by_filename_returns_movie_that_has_media_with_file
     stub_request(:get, @server.query_path("/library/sections/1/all")).to_return(body: load_response(:library_1))
-    filename = "/volume1/Media/Movies/3 Days to Kill (2014)/3 Days to Kill (2014) [1080p] [AAC 2ch].mp4"
+    #stub_request(:get, @server.query_path("library/metadata/17911")).to_return(body: load_response(:movie1))
+    filename = "/volume1/Media/Movies/2 Guns (2013)/2 Guns (2013) [1080p] [AAC 2ch].mp4"
     @library = Plex.server.library(1)
-    media = @library.find_by_filename(filename)
-    assert media.is_a?(Plex::Media)
-    assert media.parent.is_a?(Plex::Movie)
+    movie = @library.find_by_filename(filename)
+    assert movie.is_a?(Plex::Movie)
+    assert_equal "2 Guns", movie.title
   end
 
   def test_find_by_filename_returns_nil_if_not_found
@@ -124,6 +104,50 @@ class LibraryTest < Minitest::Test
     assert_nil media
   end
 
+
+  # .movie_library?
+  
+  def test_movie_library_returns_true_if_library_is_for_movies
+    @library = Plex.server.library(3)
+    assert @library.movie_library?
+    assert_equal "movie", @library.type  
+  end
+
+  def test_movie_library_returns_false_if_library_is_for_shows
+    @library = Plex.server.library(2)
+    assert !@library.movie_library?
+  end
+
+
+  # show tests
+
+
+  def test_all_returns_all_shows
+    stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:library_2))
+    stub_request(:get, @server.query_path("/library/metadata/10401/allLeaves")).to_return(body: load_response(:show_1))
+    stub_request(:get, @server.query_path("/library/metadata/10320/allLeaves")).to_return(body: load_response(:show_2))
+    @library = Plex.server.library(2)
+    @results = @library.all
+
+    assert_equal 2, @results.count
+    assert @results.first.is_a?(Plex::Show)
+  end
+
+  def test_total_returns_total_entries_in_library_for_shows
+    stub_request(:get, @server.query_path("/library/sections/2/all?X-Plex-Container-Size=0&X-Plex-Container-Start=0")).to_return(body: load_response(:show_count))
+    
+    @library = Plex.server.library(2)
+    assert_equal "TV Shows", @library.title
+    count = @library.total_count
+    assert_equal 50, count
+  end
+
+  def test_show_library_returns_true_if_library_is_show
+    @library = Plex.server.library(2)
+    assert @library.show_library?
+    assert_equal "show", @library.type
+  end
+
   def test_find_by_filename_returns_media_model_for_show
     stub_request(:get, @server.query_path("/library/sections/2/all")).to_return(body: load_response(:library_2))
     stub_request(:get, @server.query_path("/library/metadata/10401/allLeaves")).to_return(body: load_response(:show_1))
@@ -131,35 +155,9 @@ class LibraryTest < Minitest::Test
     @library = Plex.server.library(2)
 
     file = "/volume1/Media/TV/Band of Brothers/Band of Brothers S01/Band of Brothers S01E01 [1080p].mp4"
-    media = @library.find_by_filename(file)
-    assert media.parent.is_a?(Plex::Episode)
-  end
-
-
-  # .to_hash
-
-  def test_to_hash
-    stub_request(:get, @server.query_path("/library/sections/1/all")).to_return(body: load_response(:library_1))
-    @library = Plex.server.library(1)
-    hash = @library.to_hash
-    keys = [:id, :type, :title, :updated_at, :directories, :total_count]
-    
-    assert keys.all? {|key| hash.keys.include?(key) }
-    assert_equal @library.id, hash[:id]
-    assert_equal "movie", hash[:type]
-  end
-
-
-  # .movie_library?
-  
-  def test_movie_library_returns_true_if_library_is_for_movies
-    @library = Plex.server.library(3)
-    assert @library.movie_library?
-  end
-
-  def test_movie_library_returns_false_if_library_is_for_shows
-    @library = Plex.server.library(2)
-    assert !@library.movie_library?
+    show = @library.find_by_filename(file)
+    assert show.is_a?(Plex::Show)
+    assert_equal "Band of Brothers", show.title
   end
 
 end

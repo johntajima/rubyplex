@@ -15,25 +15,16 @@ class PartTest < Minitest::Test
   # has_file?
 
   def test_has_file_returns_true_if_file_matches
-    @part = @media.part
+    @part = @media.parts.first
 
     assert @part.has_file?("/volume1/Media/Movies/2 Guns (2013)/2 Guns (2013) [1080p] [AAC 2ch].mp4")
     assert @part.has_file?("Movies/2 Guns (2013)/2 Guns (2013) [1080p] [AAC 2ch].mp4")
   end
 
   def test_has_file_returns_false_if_file_does_not_match
-    @part = @media.part
+    @part = @media.parts.first
 
     assert !@part.has_file?("/volume1/Media/Movies/bad.mp4")
   end
 
-
-  # to_hash
-
-  def test_to_hash
-    @part = @media.part
-    assert @part.to_hash.is_a?(Hash)
-    keys = [:duration, :file, :id, :size, :streams]
-    assert_equal keys, @part.to_hash.keys.sort
-  end
 end

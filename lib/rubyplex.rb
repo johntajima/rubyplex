@@ -1,9 +1,8 @@
-require 'active_support/core_ext'
 require 'json'
-require 'rest-client'
+require 'yaml'
+require 'faraday'
 require 'plex/version'
 require 'plex/base'
-require 'plex/sortable'
 require 'plex/server'
 require 'plex/library'
 require 'plex/movie'
@@ -11,28 +10,34 @@ require 'plex/show'
 require 'plex/episode'
 require 'plex/media'
 require 'plex/part'
-
-require 'plex/errors'
+require 'plex/stream'
 
 module Plex
 
-  DEFAULT_CONFIG = {
-    host: '192.168.2.5',
-    port: 32400,
-    token: '_3ZFfNvrYhZ9awqszJ_m',
-    memcache_host: 'localhost',
-    memcache_port: 11211
-  }
+  DFLT_HOST   = '127.0.0.1'
+  DFLT_PORT   = 32400
+  DFLT_TOKEN  = ''
+  CONFIG_FILE = File.expand_path('~/.rubyplex.yml')
+  
+  extend self
 
-  def self.config
-    @config ||= DEFAULT_CONFIG
+
+  def dflt_config
+    params = File.exist?(CONFIG_FILE) ? (YAML.load(File.read(CONFIG_FILE))) : {}
+    {
+      host: params.fetch('PLEX_HOST', nil) || DFLT_HOST,
+      port: params.fetch('PLEX_PORT', nil) || DFLT_PORT,
+      token: params.fetch('PLEX_TOKEN', nil) || DFLT_TOKEN
+    }
   end
 
-  def self.configure
-    yield(config)
+  def config
+    dflt_config
   end
 
-  def self.server
-    Plex::Server.new(config)    
+  def server(config = dflt_config)
+    Plex::Server.new(config)
   end
+
+
 end

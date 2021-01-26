@@ -1,10 +1,9 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "rubyplex"
-
-require 'active_support'
-
 require "minitest/autorun"
 require 'webmock/minitest'
+require 'mocha/minitest'
+
 
 WebMock.disable_net_connect!
 
@@ -20,8 +19,8 @@ RESPONSES = {
   movie1: 'movie_1.json',
   show_1_details: 'show_details.json'
 }
-
-
+ 
+ 
 def load_response(key)
   file = RESPONSES.fetch(key)
   open("test/fixtures/#{file}").read
