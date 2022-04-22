@@ -25,7 +25,7 @@ module Plex
   class Stream < Plex::Base
 
     def inspect
-      "#<Plex::Stream id:#{index} type:#{type} codec:#{codec} bitrate:#{bitrate} #{displayTitle}>"
+      "#<Plex::Stream id:#{hash}>"
     end
 
   end

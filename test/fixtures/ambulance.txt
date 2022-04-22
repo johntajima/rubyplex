@@ -1,0 +1,337 @@
+{
+  "MediaContainer": {
+    "size": 1,
+    "allowSync": true,
+    "identifier": "com.plexapp.plugins.library",
+    "librarySectionID": 3,
+    "librarySectionTitle": "4K Movies",
+    "librarySectionUUID": "7caa5b61-14f9-496a-be03-2d8921ca40e5",
+    "mediaTagPrefix": "/system/bundle/media/flags/",
+    "mediaTagVersion": 1627505128,
+    "Metadata": [{
+      "ratingKey": "24383",
+      "key": "/library/metadata/24383",
+      "guid": "com.plexapp.agents.imdb://tt4998632?lang=en",
+      "studio": "Universal Pictures",
+      "type": "movie",
+      "title": "Ambulance",
+      "contentRating": "R",
+      "summary": "Decorated veteran Will Sharp, desperate for money to cover his wife's medical bills, asks for help from his adoptive brother Danny. A charismatic career criminal, Danny instead offers him a score: the biggest bank heist in Los Angeles history: $32 million.",
+      "rating": 6.80000019073486,
+      "audienceRating": 8.69999980926514,
+      "year": 2022,
+      "tagline": "It was supposed to be a simple heist.",
+      "thumb": "/library/metadata/24383/thumb/1650578336",
+      "art": "/library/metadata/24383/art/1650578336",
+      "duration": 8179232,
+      "originallyAvailableAt": "2022-03-16",
+      "addedAt": 1650578312,
+      "updatedAt": 1650578336,
+      "audienceRatingImage": "rottentomatoes://image.rating.upright",
+      "primaryExtraKey": "/library/metadata/24384",
+      "ratingImage": "rottentomatoes://image.rating.ripe",
+      "Media": [{
+        "id": 50667,
+        "duration": 8179232,
+        "bitrate": 15086,
+        "width": 3840,
+        "height": 1596,
+        "aspectRatio": 2.35,
+        "audioChannels": 6,
+        "audioCodec": "eac3",
+        "videoCodec": "hevc",
+        "videoResolution": "4k",
+        "container": "mp4",
+        "videoFrameRate": "24p",
+        "optimizedForStreaming": 1,
+        "has64bitOffsets": true,
+        "videoProfile": "main 10",
+        "Part": [{
+          "id": 51547,
+          "key": "/library/parts/51547/1650578301/file.mp4",
+          "duration": 8179232,
+          "file": "/volume2/Media/downloads_hq/Ambulance.2022.2160p.WEB-DL.DDP5.1.Atmos.DV.MP4.x265-DVSUX/Ambulance.2022.2160p.WEB-DL.DDP5.1.Atmos.DV.MP4.x265-DVSUX.mp4",
+          "size": 15427473675,
+          "container": "mp4",
+          "has64bitOffsets": true,
+          "optimizedForStreaming": true,
+          "videoProfile": "main 10",
+          "Stream": [{
+            "id": 156723,
+            "streamType": 1,
+            "default": true,
+            "codec": "hevc",
+            "index": 0,
+            "bitrate": 14318,
+            "DOVIBLCompatID": 0,
+            "DOVIBLPresent": true,
+            "DOVIELPresent": false,
+            "DOVILevel": 6,
+            "DOVIPresent": true,
+            "DOVIProfile": 5,
+            "DOVIRPUPresent": true,
+            "DOVIVersion": "1.0",
+            "bitDepth": 10,
+            "chromaSubsampling": "4:2:0",
+            "codecID": "dvhe",
+            "codedHeight": 1600,
+            "codedWidth": 3840,
+            "colorRange": "tv",
+            "frameRate": 23.97599983215332,
+            "height": 1596,
+            "level": 150,
+            "profile": "main 10",
+            "refFrames": 1,
+            "streamIdentifier": "1",
+            "width": 3840,
+            "displayTitle": "4K (HEVC Main 10)",
+            "extendedDisplayTitle": "4K (HEVC Main 10)"
+          }, {
+            "id": 156724,
+            "streamType": 2,
+            "selected": true,
+            "default": true,
+            "codec": "eac3",
+            "index": 1,
+            "channels": 6,
+            "bitrate": 768,
+            "language": "English",
+            "languageCode": "eng",
+            "audioChannelLayout": "5.1(side)",
+            "samplingRate": 48000,
+            "streamIdentifier": "2",
+            "displayTitle": "English (EAC3 5.1)",
+            "extendedDisplayTitle": "English (EAC3 5.1)"
+          }, {
+            "id": 156725,
+            "streamType": 3,
+            "default": true,
+            "codec": "mov_text",
+            "index": 2,
+            "bitrate": 0,
+            "language": "English",
+            "languageCode": "eng",
+            "streamIdentifier": "3",
+            "displayTitle": "English (MOV_TEXT)",
+            "extendedDisplayTitle": "English (MOV_TEXT)"
+          }, {
+            "id": 156726,
+            "streamType": 3,
+            "default": true,
+            "codec": "mov_text",
+            "index": 3,
+            "bitrate": 0,
+            "language": "English",
+            "languageCode": "eng",
+            "streamIdentifier": "4",
+            "displayTitle": "English (MOV_TEXT)",
+            "extendedDisplayTitle": "English (MOV_TEXT)"
+          }]
+        }]
+      }],
+      "Genre": [{
+        "id": 170,
+        "tag": "Crime"
+      }, {
+        "id": 26,
+        "tag": "Action"
+      }, {
+        "id": 28,
+        "tag": "Thriller"
+      }, {
+        "id": 46,
+        "tag": "Drama"
+      }],
+      "Director": [{
+        "id": 705,
+        "tag": "Michael Bay"
+      }],
+      "Writer": [{
+        "id": 90083,
+        "tag": "Chris Fedak"
+      }],
+      "Producer": [{
+        "id": 738,
+        "tag": "Michael Bay"
+      }, {
+        "id": 3024,
+        "tag": "Ian Bryce"
+      }, {
+        "id": 10228,
+        "tag": "James Vanderbilt"
+      }, {
+        "id": 65123,
+        "tag": "Brad Fischer"
+      }, {
+        "id": 10200,
+        "tag": "William Sherak"
+      }],
+      "Country": [{
+        "id": 33,
+        "tag": "USA"
+      }],
+      "Role": [{
+        "id": 11039,
+        "tag": "Yahya Abdul-Mateen II",
+        "role": "Will Sharp",
+        "thumb": "http://image.tmdb.org/t/p/original/aBDebGZs2pAucyaK4EhHVJGm0Xu.jpg"
+      }, {
+        "id": 19407,
+        "tag": "Jake Gyllenhaal",
+        "role": "Danny Sharp",
+        "thumb": "http://image.tmdb.org/t/p/original/oA6fp6SQBQQWZEzn4NfY3E8mJhV.jpg"
+      }, {
+        "id": 6562,
+        "tag": "Eiza González",
+        "role": "Cam Thompson",
+        "thumb": "http://image.tmdb.org/t/p/original/w2pZ8gLqZNguj8cqrDGbMw2Ibj0.jpg"
+      }, {
+        "id": 470,
+        "tag": "Garret Dillahunt",
+        "role": "Captain Monroe",
+        "thumb": "http://image.tmdb.org/t/p/original/9ISUezmwt2Hnm2do6Mg75EyAwgE.jpg"
+      }, {
+        "id": 7970,
+        "tag": "Keir O'Donnell",
+        "role": "FBI Agent Anson Clark",
+        "thumb": "http://image.tmdb.org/t/p/original/4PnupUSZLvtT5DOfAuqHrGgdEuV.jpg"
+      }, {
+        "id": 96347,
+        "tag": "Moses Ingram",
+        "role": "Amy Sharp",
+        "thumb": "http://image.tmdb.org/t/p/original/6TSpYNLybz0IuTFYMzLkfJhQhFf.jpg"
+      }, {
+        "id": 96348,
+        "tag": "A Martinez",
+        "role": "Papi",
+        "thumb": "http://image.tmdb.org/t/p/original/gp0HXzEJPWFRnxLnbGJDrvBTgpr.jpg"
+      }, {
+        "id": 96349,
+        "tag": "Wale Folarin",
+        "role": "Castro"
+      }, {
+        "id": 7612,
+        "tag": "Cedric Sanders",
+        "role": "Officer Mark",
+        "thumb": "http://image.tmdb.org/t/p/original/nsWet5XiurobQJ1e8XmFsA9n9F3.jpg"
+      }, {
+        "id": 96350,
+        "tag": "Jackson White",
+        "role": "Officer Zach",
+        "thumb": "http://image.tmdb.org/t/p/original/88jtyneH9TiAFccioLRIYCAFAk6.jpg"
+      }, {
+        "id": 26854,
+        "tag": "Colin Woodell",
+        "role": "EMT Scott",
+        "thumb": "http://image.tmdb.org/t/p/original/sMd7ba1hWVm5E1Lf5VYcj82ouod.jpg"
+      }, {
+        "id": 96351,
+        "tag": "Olivia Stambouliah",
+        "role": "Lieutenant Dhazghig",
+        "thumb": "http://image.tmdb.org/t/p/original/4hNNG8s8OOgzHo2T3ypLK0qltUV.jpg"
+      }, {
+        "id": 27580,
+        "tag": "Jesse Garcia",
+        "role": "Roberto",
+        "thumb": "http://image.tmdb.org/t/p/original/jsEZz7z1wI95277m7S9YM1dbVYb.jpg"
+      }, {
+        "id": 70404,
+        "tag": "Victor Gojcaj",
+        "role": ""
+      }, {
+        "id": 3013,
+        "tag": "Remi Adeleke",
+        "role": "Wade",
+        "thumb": "http://image.tmdb.org/t/p/original/cdFcG37dOUBX7m4zcQmx0JCn72y.jpg"
+      }, {
+        "id": 96352,
+        "tag": "Devan Long",
+        "role": "William Wallace",
+        "thumb": "http://image.tmdb.org/t/p/original/axcNjynINTGDYP99VP9U2XvWFBt.jpg"
+      }, {
+        "id": 25661,
+        "tag": "Gary Sievers",
+        "role": "Homeless Man (uncredited)",
+        "thumb": "http://image.tmdb.org/t/p/original/rxQQRORma4ACziF7hjoilBMQS89.jpg"
+      }, {
+        "id": 96353,
+        "tag": "Briella Guiza",
+        "role": ""
+      }, {
+        "id": 52326,
+        "tag": "Brendan Miller",
+        "role": "Trent",
+        "thumb": "http://image.tmdb.org/t/p/original/eMMwLqzKOd5s5j86P5LU00XaQVv.jpg"
+      }, {
+        "id": 96354,
+        "tag": "Jose Pablo Cantillo",
+        "role": "Jesus",
+        "thumb": "http://image.tmdb.org/t/p/original/qtNesvN1bAQ779gJBt3LYDsm8f7.jpg"
+      }],
+      "Similar": [{
+        "id": 96250,
+        "tag": "Morbius"
+      }, {
+        "id": 96355,
+        "tag": "Sonic the Hedgehog 2"
+      }, {
+        "id": 96356,
+        "tag": "Notre-Dame on Fire"
+      }, {
+        "id": 95724,
+        "tag": "Moonfall"
+      }, {
+        "id": 96357,
+        "tag": "Rise"
+      }, {
+        "id": 14592,
+        "tag": "Goliath"
+      }, {
+        "id": 96022,
+        "tag": "The Adam Project"
+      }, {
+        "id": 96170,
+        "tag": "Turning Red"
+      }, {
+        "id": 96358,
+        "tag": "The Lost City"
+      }, {
+        "id": 96359,
+        "tag": "La brigade"
+      }, {
+        "id": 96360,
+        "tag": "The Bad Guys"
+      }, {
+        "id": 95969,
+        "tag": "The Batman"
+      }, {
+        "id": 96361,
+        "tag": "Black Crab"
+      }, {
+        "id": 96249,
+        "tag": "Fantastic Beasts: The Secrets of Dumbledore"
+      }, {
+        "id": 96362,
+        "tag": "Windfall"
+      }, {
+        "id": 95965,
+        "tag": "Jackass Forever"
+      }, {
+        "id": 95989,
+        "tag": "Blacklight"
+      }, {
+        "id": 96167,
+        "tag": "Deep Water"
+      }, {
+        "id": 95725,
+        "tag": "Death on the Nile"
+      }, {
+        "id": 96247,
+        "tag": "The Bubble"
+      }, {
+        "id": 93398,
+        "tag": "Drive My Car"
+      }]
+    }]
+  }
+}

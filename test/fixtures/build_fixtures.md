@@ -53,4 +53,4 @@ curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
 # movie 1
 curl -is --header "X-Plex-Token: _3ZFfNvrYhZ9awqszJ_m"\
          --header "Accept: application/json"\
-         http://192.168.2.5:32400/library/metadata/17911 > test/fixtures/movie_1.txt
+         http://192.168.2.5:32400/library/metadata/24383 > test/fixtures/movie_1.txt
