@@ -73,7 +73,7 @@ module Plex
 
     def imdb
       load_details!
-      guids = @hash.fetch("Guid")
+      guids = @hash.fetch("Guid",[])
       guids.map {|x| x['id'].scan(/imdb\:\/\/(tt\d{3,})/).first }.flatten.compact.first
     end
 
