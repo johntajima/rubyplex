@@ -72,7 +72,9 @@ module Plex
     end
 
     def imdb
-      guid.scan(/tt\d{3,}/).first if guid.match('imdb')
+      load_details!
+      guids = @hash.fetch("Guid")
+      guids.map {|x| x['id'].scan(/imdb\:\/\/(tt\d{3,})/).first }.flatten.compact.first
     end
 
     def release_date

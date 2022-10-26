@@ -6,7 +6,7 @@ module Plex
 
     TIME_ATTRIBUTES = %w|updatedAt createdAt addedAt scannedAt|
     DATE_ATTRIBUTES = ["originallyAvailableAt"]
-    TAG_ATTRIBUTES  = ["Genre", "Director", "Writer", "Country", "Role"]
+    TAG_ATTRIBUTES  = ["Genre", "Director", "Writer", "Country", "Role", "Guid"]
 
     def initialize(hash, server: nil)
       @hash = hash
@@ -27,6 +27,10 @@ module Plex
       else
         value
       end
+    end
+
+    def guids
+      tag_values('Guid')
     end
 
     def keys
