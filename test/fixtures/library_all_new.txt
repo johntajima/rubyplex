@@ -1,0 +1,396 @@
+
+{
+  "MediaContainer": {
+    "size": 5,
+    "totalSize": 2627,
+    "offset": 0,
+    "allowSync": true,
+    "art": "/:/resources/movie-fanart.jpg",
+    "identifier": "com.plexapp.plugins.library",
+    "librarySectionID": 1,
+    "librarySectionTitle": "Movies",
+    "librarySectionUUID": "5788a3e4-e4b5-4ccf-8f94-879772cc7543",
+    "mediaTagPrefix": "/system/bundle/media/flags/",
+    "mediaTagVersion": 1660767531,
+    "thumb": "/:/resources/movie.png",
+    "title1": "Movies",
+    "title2": "All Movies",
+    "viewGroup": "movie",
+    "viewMode": 65592,
+    "Metadata": [{
+      "ratingKey": "23867",
+      "key": "/library/metadata/23867",
+      "guid": "com.plexapp.agents.imdb://tt0096734?lang=en",
+      "studio": "Imagine Entertainment",
+      "type": "movie",
+      "title": "The 'Burbs",
+      "titleSort": "'Burbs",
+      "contentRating": "PG",
+      "summary": "When secretive new neighbors move in next door, suburbanite Ray Peterson and his friends let their paranoia get the best of them as they start to suspect the newcomers of evildoings and commence an investigation. But it's hardly how Ray, who much prefers drinking beer, reading his newspaper and watching a ball game on the tube expected to spend his vacation.",
+      "rating": 5.3,
+      "audienceRating": 7.1,
+      "year": 1989,
+      "tagline": "He's a man of peace in a savage land... Suburbia.",
+      "thumb": "/library/metadata/23867/thumb/1666032224",
+      "art": "/library/metadata/23867/art/1666032224",
+      "duration": 6102933,
+      "originallyAvailableAt": "1989-02-17",
+      "addedAt": 1643344427,
+      "updatedAt": 1666032224,
+      "audienceRatingImage": "rottentomatoes://image.rating.upright",
+      "chapterSource": "media",
+      "primaryExtraKey": "/library/metadata/23812",
+      "ratingImage": "rottentomatoes://image.rating.rotten",
+      "Media": [{
+        "id": 50026,
+        "duration": 6102933,
+        "bitrate": 13002,
+        "width": 1920,
+        "height": 1036,
+        "aspectRatio": 1.85,
+        "audioChannels": 2,
+        "audioCodec": "dca",
+        "videoCodec": "h264",
+        "videoResolution": "1080",
+        "container": "mkv",
+        "videoFrameRate": "24p",
+        "audioProfile": "dts",
+        "videoProfile": "high",
+        "Part": [{
+          "id": 50782,
+          "key": "/library/parts/50782/1643344421/file.mkv",
+          "duration": 6102933,
+          "file": "/volume2/Media/Movies/The 'Burbs (1989)/The 'Burbs (1989) [1080p] [DTS 2.0].mkv",
+          "size": 9920823590,
+          "audioProfile": "dts",
+          "container": "mkv",
+          "hasThumbnail": "1",
+          "videoProfile": "high"
+        }]
+      }],
+      "Genre": [{
+        "tag": "Thriller"
+      }, {
+        "tag": "Comedy"
+      }],
+      "Director": [{
+        "tag": "Joe Dante"
+      }],
+      "Writer": [{
+        "tag": "Dana Olsen"
+      }],
+      "Country": [{
+        "tag": "USA"
+      }],
+      "Role": [{
+        "tag": "Tom Hanks"
+      }, {
+        "tag": "Bruce Dern"
+      }, {
+        "tag": "Carrie Fisher"
+      }]
+    }, {
+      "ratingKey": "2",
+      "key": "/library/metadata/2",
+      "guid": "com.plexapp.agents.imdb://tt10620868?lang=en",
+      "studio": "Lotte Entertainment",
+      "type": "movie",
+      "title": "#Alive",
+      "originalTitle": "#살아있다",
+      "contentRating": "TV-MA",
+      "summary": "As a grisly virus rampages a city, a lone man stays locked inside his apartment, digitally cut off from seeking help and desperate to find a way out.",
+      "rating": 8.8,
+      "audienceRating": 6.2,
+      "year": 2020,
+      "tagline": "You must survive.",
+      "thumb": "/library/metadata/2/thumb/1666032226",
+      "art": "/library/metadata/2/art/1666032226",
+      "duration": 5889962,
+      "originallyAvailableAt": "2020-06-24",
+      "addedAt": 1598539923,
+      "updatedAt": 1666032226,
+      "audienceRatingImage": "rottentomatoes://image.rating.upright",
+      "primaryExtraKey": "/library/metadata/26002",
+      "ratingImage": "rottentomatoes://image.rating.ripe",
+      "Media": [{
+        "id": 2,
+        "duration": 5889962,
+        "bitrate": 5428,
+        "width": 1920,
+        "height": 1080,
+        "aspectRatio": 1.78,
+        "audioChannels": 2,
+        "audioCodec": "aac",
+        "videoCodec": "h264",
+        "videoResolution": "1080",
+        "container": "mp4",
+        "videoFrameRate": "24p",
+        "optimizedForStreaming": 1,
+        "audioProfile": "lc",
+        "has64bitOffsets": false,
+        "videoProfile": "high",
+        "Part": [{
+          "id": 2,
+          "key": "/library/parts/2/1598539923/file.mp4",
+          "duration": 5889962,
+          "file": "/volume2/Media/Movies/#Alive (2020)/#Alive (2020) [1080p] [AAC 2ch].mp4",
+          "size": 4000402972,
+          "audioProfile": "lc",
+          "container": "mp4",
+          "has64bitOffsets": false,
+          "optimizedForStreaming": true,
+          "videoProfile": "high"
+        }]
+      }],
+      "Genre": [{
+        "tag": "Action"
+      }, {
+        "tag": "Thriller"
+      }],
+      "Director": [{
+        "tag": "Cho Il"
+      }],
+      "Writer": [{
+        "tag": "Matt Naylor"
+      }],
+      "Country": [{
+        "tag": "USA"
+      }],
+      "Role": [{
+        "tag": "Yoo Ah-in"
+      }, {
+        "tag": "Park Shin-hye"
+      }, {
+        "tag": "Lee Hyun-wook"
+      }]
+    }, {
+      "ratingKey": "17",
+      "key": "/library/metadata/17",
+      "guid": "com.plexapp.agents.imdb://tt0322259?lang=en",
+      "studio": "Mikona Productions GmbH & Co. KG",
+      "type": "movie",
+      "title": "2 Fast 2 Furious",
+      "contentRating": "PG-13",
+      "summary": "It's a major double-cross when former police officer Brian O'Conner teams up with his ex-con buddy Roman Pearce to transport a shipment of \"dirty\" money for shady Miami-based import-export dealer Carter Verone. But the guys are actually working with undercover agent Monica Fuentes to bring Verone down.",
+      "rating": 3.6,
+      "audienceRating": 5.0,
+      "year": 2003,
+      "tagline": "How fast do you like it?",
+      "thumb": "/library/metadata/17/thumb/1666032226",
+      "art": "/library/metadata/17/art/1666032226",
+      "duration": 6455978,
+      "originallyAvailableAt": "2003-06-05",
+      "addedAt": 1406969860,
+      "updatedAt": 1666032226,
+      "audienceRatingImage": "rottentomatoes://image.rating.spilled",
+      "primaryExtraKey": "/library/metadata/340",
+      "ratingImage": "rottentomatoes://image.rating.rotten",
+      "Media": [{
+        "id": 17,
+        "duration": 6455978,
+        "bitrate": 2649,
+        "width": 1920,
+        "height": 816,
+        "aspectRatio": 2.35,
+        "audioChannels": 6,
+        "audioCodec": "aac",
+        "videoCodec": "h264",
+        "videoResolution": "1080",
+        "container": "mp4",
+        "videoFrameRate": "24p",
+        "optimizedForStreaming": 1,
+        "audioProfile": "lc",
+        "has64bitOffsets": false,
+        "videoProfile": "high",
+        "Part": [{
+          "id": 17,
+          "key": "/library/parts/17/1406969860/file.mp4",
+          "duration": 6455978,
+          "file": "/volume2/Media/Movies/2 Fast 2 Furious (2003)/2 Fast 2 Furious (2003) [1080p] [AAC 6ch].mp4",
+          "size": 2141555229,
+          "audioProfile": "lc",
+          "container": "mp4",
+          "has64bitOffsets": false,
+          "optimizedForStreaming": true,
+          "videoProfile": "high"
+        }]
+      }],
+      "Genre": [{
+        "tag": "Crime"
+      }, {
+        "tag": "Action"
+      }],
+      "Director": [{
+        "tag": "John Singleton"
+      }],
+      "Writer": [{
+        "tag": "Michael Brandt"
+      }, {
+        "tag": "Derek Haas"
+      }],
+      "Country": [{
+        "tag": "USA"
+      }],
+      "Collection": [{
+        "tag": "The Fast and the Furious"
+      }],
+      "Role": [{
+        "tag": "Paul Walker"
+      }, {
+        "tag": "Tyrese Gibson"
+      }, {
+        "tag": "Eva Mendes"
+      }]
+    }, {
+      "ratingKey": "18",
+      "key": "/library/metadata/18",
+      "guid": "com.plexapp.agents.imdb://tt1272878?lang=en",
+      "studio": "Universal Pictures",
+      "type": "movie",
+      "title": "2 Guns",
+      "contentRating": "R",
+      "summary": "A DEA agent and an undercover Naval Intelligence officer who have been tasked with investigating one another find they have been set up by the mob -- the very organization the two men believe they have been stealing money from.",
+      "rating": 6.4,
+      "audienceRating": 6.6,
+      "year": 2013,
+      "tagline": "2 Guns, 1 Bank.",
+      "thumb": "/library/metadata/18/thumb/1666032240",
+      "art": "/library/metadata/18/art/1666032240",
+      "duration": 6555382,
+      "originallyAvailableAt": "2013-08-02",
+      "addedAt": 1383905481,
+      "updatedAt": 1666032240,
+      "audienceRatingImage": "rottentomatoes://image.rating.upright",
+      "primaryExtraKey": "/library/metadata/26003",
+      "ratingImage": "rottentomatoes://image.rating.ripe",
+      "Media": [{
+        "id": 18,
+        "duration": 6555382,
+        "bitrate": 2144,
+        "width": 1920,
+        "height": 800,
+        "aspectRatio": 2.35,
+        "audioChannels": 2,
+        "audioCodec": "aac",
+        "videoCodec": "h264",
+        "videoResolution": "1080",
+        "container": "mp4",
+        "videoFrameRate": "24p",
+        "optimizedForStreaming": 1,
+        "audioProfile": "lc",
+        "has64bitOffsets": false,
+        "videoProfile": "high",
+        "Part": [{
+          "id": 18,
+          "key": "/library/parts/18/1383905481/file.mp4",
+          "duration": 6555382,
+          "file": "/volume2/Media/Movies/2 Guns (2013)/2 Guns (2013) [1080p] [AAC 2ch].mp4",
+          "size": 1760468767,
+          "audioProfile": "lc",
+          "container": "mp4",
+          "has64bitOffsets": false,
+          "optimizedForStreaming": true,
+          "videoProfile": "high"
+        }]
+      }],
+      "Genre": [{
+        "tag": "Crime"
+      }, {
+        "tag": "Action"
+      }],
+      "Director": [{
+        "tag": "Baltasar Kormákur"
+      }],
+      "Writer": [{
+        "tag": "Blake Masters"
+      }],
+      "Country": [{
+        "tag": "USA"
+      }],
+      "Role": [{
+        "tag": "Denzel Washington"
+      }, {
+        "tag": "Mark Wahlberg"
+      }, {
+        "tag": "Paula Patton"
+      }]
+    }, {
+      "ratingKey": "29",
+      "key": "/library/metadata/29",
+      "guid": "com.plexapp.agents.imdb://tt2172934?lang=en",
+      "studio": "20th Century Fox",
+      "type": "movie",
+      "title": "3 Days to Kill",
+      "contentRating": "PG-13",
+      "summary": "A dangerous international spy is determined to give up his high stakes life to finally build a closer relationship with his estranged wife and daughter. But first, he must complete one last mission - even if it means juggling the two toughest assignments yet: hunting down the world's most ruthless terrorist and looking after his teenage daughter for the first time in ten years, while his wife is out of town.",
+      "rating": 2.7,
+      "audienceRating": 4.3,
+      "viewOffset": 1322000,
+      "lastViewedAt": 1606318381,
+      "year": 2014,
+      "tagline": "The question is, kill or die?",
+      "thumb": "/library/metadata/29/thumb/1666032240",
+      "art": "/library/metadata/29/art/1666032240",
+      "duration": 7338873,
+      "originallyAvailableAt": "2014-02-14",
+      "addedAt": 1405933914,
+      "updatedAt": 1666032240,
+      "audienceRatingImage": "rottentomatoes://image.rating.spilled",
+      "primaryExtraKey": "/library/metadata/399",
+      "ratingImage": "rottentomatoes://image.rating.rotten",
+      "Media": [{
+        "id": 29,
+        "duration": 7338873,
+        "bitrate": 2156,
+        "width": 1920,
+        "height": 808,
+        "aspectRatio": 2.35,
+        "audioChannels": 2,
+        "audioCodec": "aac",
+        "videoCodec": "h264",
+        "videoResolution": "1080",
+        "container": "mp4",
+        "videoFrameRate": "24p",
+        "optimizedForStreaming": 1,
+        "audioProfile": "lc",
+        "has64bitOffsets": false,
+        "videoProfile": "high",
+        "Part": [{
+          "id": 29,
+          "key": "/library/parts/29/1405933914/file.mp4",
+          "duration": 7338873,
+          "file": "/volume2/Media/Movies/3 Days to Kill (2014)/3 Days to Kill (2014) [1080p] [AAC 2ch].mp4",
+          "size": 1981957797,
+          "audioProfile": "lc",
+          "container": "mp4",
+          "has64bitOffsets": false,
+          "optimizedForStreaming": true,
+          "videoProfile": "high"
+        }]
+      }],
+      "Genre": [{
+        "tag": "Action"
+      }, {
+        "tag": "Thriller"
+      }],
+      "Director": [{
+        "tag": "McG"
+      }],
+      "Writer": [{
+        "tag": "Luc Besson"
+      }, {
+        "tag": "Adi Hasak"
+      }],
+      "Country": [{
+        "tag": "USA"
+      }],
+      "Role": [{
+        "tag": "Kevin Costner"
+      }, {
+        "tag": "Hailee Steinfeld"
+      }, {
+        "tag": "Connie Nielsen"
+      }]
+    }]
+  }
+}
