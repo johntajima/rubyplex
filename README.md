@@ -128,7 +128,8 @@ Movie is a plex movie.
 
 .load_details!      # reload Movie model with extended params (including Stream details)
 .find_by_filename(filename)   # returns Media model which has the file 
-.imdb               # IMDB number (if proper agent is used)
+.imdb               # IMDB number ttxxxxxx
+.tvdb
 .id                 # same as "ratingKey" attribute
 .release_date       # same as "originallyAvailableAt"
 .files              # array of all files associated with movie

@@ -1,6 +1,6 @@
 module Plex
 
-# /library/sections 
+# /library/sections
 # "Directory" => [
 # { "allowSync"=>true,
 #   "art"=>"/:/resources/movie-fanart.jpg",
@@ -101,8 +101,9 @@ module Plex
 
 
     def get_entries(path, options: {})
+      options.merge!({includeGuids: 1})
       entries = server.data_query(query_path(path), options: options)
-      entries.map do |entry| 
+      entries.map do |entry|
         movie_library? ? Plex::Movie.new(entry, server: server) : Plex::Show.new(entry, server: server)
       end
     end

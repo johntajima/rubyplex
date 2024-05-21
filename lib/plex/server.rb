@@ -1,7 +1,7 @@
 module Plex
   class Server
 
-    VALID_PARAMS = %w| type year decade sort|
+    VALID_PARAMS = %w| type year decade sort includeGuids|
 
     attr_accessor :host, :port, :token
 
@@ -31,7 +31,7 @@ module Plex
       if found = libraries.detect {|l| l.locations.include?(path) }
         return found
       end
- 
+
       # detect subpaths
       path_chunks = path.split("/").reject(&:empty?)
       (path_chunks.length-1).downto(1).each do |i|
@@ -68,10 +68,10 @@ module Plex
       Faraday.get(url, params, req_headers)
     end
 
-    def req_headers 
+    def req_headers
       {
         "X-Plex-Token" => token,
-        "Accept"  => "application/json"
+        "Accept"  => "application/json",
       }
     end
 
@@ -79,7 +79,7 @@ module Plex
       offset       = options.fetch(:page, 1).to_i - 1
       per_page     = options.fetch(:per_page, nil)
       return {} if per_page.nil?
-        
+
       {
         "X-Plex-Container-Start" => offset * per_page,
         "X-Plex-Container-Size"  => per_page
