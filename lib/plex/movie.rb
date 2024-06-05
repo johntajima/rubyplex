@@ -78,7 +78,7 @@ module Plex
 
     def tmdb
       guids = @hash.fetch("Guid",[])
-      guids.map {|x| x['id'].scan(/tmdb\:\/\/(\d{3,})/).first }.flatten.compact.first
+      guids.map {|x| x['id'].scan(/tmdb\:\/\/(\d{1,})/).first }.flatten.compact.first
     end
 
     def release_date
